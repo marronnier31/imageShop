@@ -9,8 +9,8 @@
 <title>Image Shop</title>
 <!--  
 <script type="text/javascript" src="/js/test.js"></script>
-<link rel="stylesheet" href="/css/style.css"/>
 -->
+<link rel="stylesheet" href="/css/home.css"/>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
