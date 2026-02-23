@@ -1,0 +1,77 @@
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+    color: #1a73e8;
+    font-size: 24px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e8f0fe;
+    padding-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+td {
+    padding: 12px 0;
+}
+
+td:first-child {
+    width: 30%;
+    font-weight: 600;
+    color: #555;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+    border-color: #1a73e8;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+.error-msg {
+    display: block;
+    font-size: 12px;
+    color: #d93025;
+    margin-top: 5px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+button {
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+#btnRegister { background-color: #1a73e8; color: white; }
+#btnRegister:hover { background-color: #1557b0; }
+#btnList { background-color: #f1f3f4; color: #3c4043; }
+#btnList:hover { background-color: #e8eaed; }

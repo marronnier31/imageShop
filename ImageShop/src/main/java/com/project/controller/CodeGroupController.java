@@ -1,0 +1,79 @@
+package com.project.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.project.domain.CodeGroup;
+import com.project.service.CodeGroupServiceImpl;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/codegroup")
+public class CodeGroupController {
+	@Autowired
+	private CodeGroupServiceImpl service;
+
+	// 코드그룹입력 페이지요청
+	@GetMapping("/register")
+	public void registerForm(Model model) throws Exception {
+		CodeGroup codeGroup = new CodeGroup();
+		model.addAttribute(codeGroup);
+	}
+
+	// 코드그룹등록 처리요청
+	@PostMapping("/register")
+	public String register(CodeGroup codeGroup, RedirectAttributes rttr) throws Exception {
+		int count = service.register(codeGroup);
+		log.info("codegroup/register = " + count);
+		if (count != 0) {
+			// 세션에 "success" 정보를 임시 저장(codegroup/list에 이 내용이 model로 저장돼서 보내진다. 일시적으로 사용)
+			rttr.addFlashAttribute("msg", "SUCCESS");
+			return "redirect:/codegroup/list";
+		}
+		return "redirect:/codegroup/register";
+	}
+
+	// 코드그룹 목록 페이지요청
+	@GetMapping("/list")
+	public void list(Model model) throws Exception {
+		log.info("model.getAttribute(msg) =" + model.getAttribute("msg"));
+		model.addAttribute("list", service.list());
+	}
+
+	// 코드그룹 상세 페이지
+	@GetMapping("/read")
+	public void read(CodeGroup codeGroup, Model model) throws Exception {
+		model.addAttribute(service.read(codeGroup));
+	}
+
+	// 코드그룹 삭제 처리 요청
+	@PostMapping("/remove")
+	public String remove(CodeGroup codeGroup, RedirectAttributes rttr) throws Exception {
+		int count = service.remove(codeGroup);
+		if (count != 0) rttr.addFlashAttribute("msg", "SUCCESS");
+		else rttr.addFlashAttribute("msg", "Delete Fail");
+		return "redirect:/codegroup/list";
+	}
+
+	// 코드그룹 수정 페이지
+	@GetMapping("/modify")
+	public void modifyForm(CodeGroup codeGroup, Model model) throws Exception {
+		model.addAttribute(service.read(codeGroup));
+	}
+
+	// 코드그룹 수정 등록 페이지
+	@PostMapping("/modify")
+	public String modify(CodeGroup codeGroup, RedirectAttributes rttr) throws Exception {
+		int count = service.modify(codeGroup);
+		if (count != 0) rttr.addFlashAttribute("msg", "SUCCESS");
+		else rttr.addFlashAttribute("msg", "Modify Fail");
+		return "redirect:/codegroup/list";
+	}
+}

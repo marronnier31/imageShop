@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+
+body {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* 유틸리티 클래스 */
+.text-center { text-align: center; }
+
+/* 헤더 스타일 */
+.main-header {
+    background-color: #ffffff;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: center; /* 홈 링크 중앙 정렬 */
+    border-bottom: 1px solid #eee;
+}
+
+.main-header a {
+    text-decoration: none;
+    color: #1a73e8;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+/* 메뉴 스타일 */
+.main-menu {
+    background-color: #ffffff;
+    padding: 10px 50px;
+    display: flex;
+    justify-content: flex-end; /* 메뉴 우측 정렬 */
+    gap: 20px; /* 링크 사이 간격 */
+}
+
+.main-menu a {
+    text-decoration: none;
+    color: #5f6368;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.main-menu a:hover {
+    color: #1a73e8;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #eee;
+    margin: 0;
+}

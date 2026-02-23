@@ -2,6 +2,6 @@
 pageEncoding="UTF-8"%> 
  
 <div align="center"> 
-<p>© 2024 ALL RIGHT RESERVED</p> 
+<p>© 2026 ALL RIGHT RESERVED</p> 
 </div> 
 <hr>
