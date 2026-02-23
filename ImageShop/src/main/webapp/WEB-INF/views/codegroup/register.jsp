@@ -24,20 +24,18 @@
             <spring:message code="codegroup.header.register" />
         </h2>
 
-        <form:form modelAttribute="codeGroup" id="codeGroupForm" action="/codegroup/register" method="post">
+        <form:form modelAttribute="codeGroup" action="/codegroup/register" method="post">
             <table>
                 <tr>
                     <td><spring:message code="codegroup.groupCode" /></td>
                     <td>
                         <form:input path="groupCode" placeholder="코드그룹 입력" />
-                        <form:errors path="groupCode" cssClass="error-msg" />
                     </td>
                 </tr>
                 <tr>
                     <td><spring:message code="codegroup.groupName" /></td>
                     <td>
                         <form:input path="groupName" placeholder="그룹명 입력" />
-                        <form:errors path="groupName" cssClass="error-msg" />
                     </td>
                 </tr>
             </table>
@@ -58,7 +56,7 @@
     <script>
         $(document).ready(function() {
             // form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
-            let formObj = $("#codeGroupForm");
+            let formObj = $("#codeGroup");
 
             $("#btnRegister").on("click", function() {
                 // 등록은 일반적으로 POST 방식을 사용합니다. 

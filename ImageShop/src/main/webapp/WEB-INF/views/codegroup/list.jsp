@@ -15,55 +15,61 @@
 
 </head>
 <body>
-	<!-- jsp:include는 동적처리방식 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<jsp:include page="/WEB-INF/views/common/menu.jsp" />
-	<!-- 메인화면 작업시작 -->
-	<div class="container" align="center">
-		<h2>
-			<spring:message code="codegroup.header.list" />
-		</h2>
-		<a href="/codegroup/register"><spring:message code="action.new" /></a>
-		<table border="1">
-			<tr>
-				<th align="center" width="160"><spring:message
-						code="codegroup.groupCode" /></th>
-				<th align="center" width="160"><spring:message
-						code="codegroup.groupName" /></th>
-				<th align="center" width="180"><spring:message
-						code="codegroup.regdate" /></th>
-			</tr>
-			<c:choose>
-				<c:when test="${empty list}">
-					<tr>
-						<td colspan="3"><spring:message code="common.listEmpty" /></td>
-					</tr>
-				</c:when>
-				<c:otherwise>
-					<c:forEach items="${list}" var="codeGroup">
+
+	<div class="container">
+		<div class="list-header">
+			<h2>
+				<spring:message code="codegroup.header.list" />
+			</h2>
+			<a href="/codegroup/register" class="btn-new"> <spring:message
+					code="action.new" />
+			</a>
+		</div>
+
+		<table class="data-table">
+			<thead>
+				<tr>
+					<th width="20%"><spring:message code="codegroup.groupCode" /></th>
+					<th width="50%"><spring:message code="codegroup.groupName" /></th>
+					<th width="30%"><spring:message code="codegroup.regdate" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty list}">
 						<tr>
-							<td align="center">${codeGroup.groupCode}</td>
-							<td align="left"><a
-								href="/codegroup/read?groupCode=${codeGroup.groupCode}">${codeGroup.groupName}
-							</a></td>
-							<td align="center"><fmt:formatDate
-									pattern="yyyy-MM-dd HH:mm" value="${codeGroup.regDate}" /></td>
+							<td colspan="3" class="text-center empty-msg"><spring:message
+									code="common.listEmpty" /></td>
 						</tr>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${list}" var="codeGroup">
+							<tr>
+								<td class="text-center">${codeGroup.groupCode}</td>
+								<td><a
+									href="/codegroup/read?groupCode=${codeGroup.groupCode}">
+										${codeGroup.groupName} </a></td>
+								<td class="text-center"><fmt:formatDate
+										pattern="yyyy-MM-dd HH:mm" value="${codeGroup.regDate}" /></td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
 		</table>
 	</div>
-	<!-- 메인화면 작업끝 -->
+
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-	<!-- 이벤트 처리방식 -->
+
 	<script>
 		let result = "${msg}";
 		if (result === "SUCCESS") {
 			alert("<spring:message code='common.processSuccess' />");
-		}else if(result === "Delete Fail"){
+		} else if (result === "Delete Fail") {
 			alert("삭제처리 실패");
-		}else if(result === "Modify Fail"){
+		} else if (result === "Modify Fail") {
 			alert("수정처리 실패");
 		}
 	</script>
