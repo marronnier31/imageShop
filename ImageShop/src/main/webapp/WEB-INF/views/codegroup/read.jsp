@@ -29,14 +29,14 @@
                 <tr>
                     <td><spring:message code="codegroup.groupCode" /></td>
                     <td>
-                        <form:input path="groupCode" readonly="codegroup.groupCode" />
+                        <form:input path="groupCode" readonly="true" />
                         <form:errors path="groupCode" cssClass="error-msg" />
                     </td>
                 </tr>
                 <tr>
                     <td><spring:message code="codegroup.groupName" /></td>
                     <td>
-                        <form:input path="groupName" readonly="codegroup.groupCode" />
+                        <form:input path="groupName" readonly="true" />
                         <form:errors path="groupName" cssClass="error-msg" />
                     </td>
                 </tr>
