@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.common.domain.CodeLabelValue;
 import com.project.domain.CodeDetail;
-import com.project.domain.common.CodeLabelValue;
 import com.project.service.CodeDetailService;
 import com.project.service.CodeService;
 

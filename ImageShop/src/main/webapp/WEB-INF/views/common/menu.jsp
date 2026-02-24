@@ -4,10 +4,12 @@
 
 <nav class="main-menu">
 	<!-- 회원가입메뉴 -->
-	<a href="/user/register"> <spring:message code="header.joinMember" /></a> 
+	<a href="/user/register"> <spring:message code="header.joinMember" /></a>
 	<!-- 코드그룹관리메뉴 -->
 	<a href="/codegroup/list"> <spring:message code="menu.codegroup.list" /></a>
 	<!-- 코드관리 메뉴 -->
 	<a href="/codedetail/register"><spring:message code="menu.codedetail.list" /></a>
+	<!-- 회원 관리를 메뉴에 추가한다. -->
+	<a href="/user/list"><spring:message code="menu.user.admin" /></a>
 </nav>
 <hr>
