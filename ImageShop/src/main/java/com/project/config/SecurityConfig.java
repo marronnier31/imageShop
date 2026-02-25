@@ -59,13 +59,13 @@ public class SecurityConfig {
 
 		// 4.기본폼 로그인을 활성화
 		//httpSecurity.formLogin(Customizer.withDefaults());
-//		httpSecurity.formLogin(form -> form
-//		        .loginPage("/login")                // 커스텀 로그인 페이지 URL
-//		        .loginProcessingUrl("/login")       // 로그인 폼 Action URL (Security가 낚아챔)
-//		        //.defaultSuccessUrl("/board/list")	// 성공시 기본 화면 설정
-//		        .successHandler(createAuthenticationSuccessHandler())
-//		        .permitAll()                        // 로그인 페이지는 누구나 접근 가능해야 함
-//		);
+		httpSecurity.formLogin(form -> form
+		        .loginPage("/login")                // 커스텀 로그인 페이지 URL
+		        .loginProcessingUrl("/login")       // 로그인 폼 Action URL (Security가 낚아챔)
+		        //.defaultSuccessUrl("/board/list")	// 성공시 기본 화면 설정
+		        .successHandler(createAuthenticationSuccessHandler())
+		        .permitAll()                        // 로그인 페이지는 누구나 접근 가능해야 함
+		);
 		
 		// 5.로그아웃처리
 //	    httpSecurity.logout(logout -> logout
@@ -99,7 +99,6 @@ public class SecurityConfig {
 		  return repo; 
 		 } 
 	
-	//@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(createUserDetailsService()).passwordEncoder(createPasswordEncoder()); 
 	}

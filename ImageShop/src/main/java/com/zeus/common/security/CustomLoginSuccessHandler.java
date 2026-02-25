@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-	private RequestCache requestCache = new HttpSessionRequestCache(); 
-	
+	private RequestCache requestCache = new HttpSessionRequestCache();
+
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
 			throws ServletException, IOException {
@@ -28,22 +28,21 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 		log.info("username = " + customUser.getUsername());
 		log.info("password = " + customUser.getPassword());
 		log.info("권한 = " + customUser.getAuthorities().toString());
-		
-		// 사용자가 인증되기 전에 접근을 시도했던 요청을 가져온다 
+
+		// 사용자가 인증되기 전에 접근을 시도했던 요청을 가져온다
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		// 이전에 요청에 정보가 없으면, http://localhost:8080/
-		if(savedRequest != null) { 
-		 String targetUrl = savedRequest.getRedirectUrl(); 
-		 log.info("CustomLoginSuccessHandler Login Success targetUrl = " + targetUrl); 
-		 response.sendRedirect(targetUrl); 
-		}else { 
-		 response.sendRedirect("/"); 
-		} 
-		
-		// 인증 과정에서 발생한 예외 정보를 세션에서 제거 
-		clearAuthenticationAttribute(request);  
-		
-		//super.onAuthenticationSuccess(request, response, auth);
+		if (savedRequest != null) {
+			String targetUrl = savedRequest.getRedirectUrl();
+			log.info("CustomLoginSuccessHandler Login Success targetUrl = " + targetUrl);
+			response.sendRedirect(targetUrl);
+		} else 
+			response.sendRedirect("/");
+
+		// 인증 과정에서 발생한 예외 정보를 세션에서 제거
+		clearAuthenticationAttribute(request);
+
+		// super.onAuthenticationSuccess(request, response, auth);
 	}
 
 	// 인증 과정에서 발생한 예외 정보를 세션에서 제거합니다.

@@ -1,95 +1,68 @@
-/* 컨텐츠 전체 감싸는 컨테이너 */
+/* 컨테이너 및 헤더 설정 */
 .container {
-    max-width: 1200px;
-    margin: 50px auto;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
 }
 
-/* 헤더 부분 (제목 + 등록 버튼) */
 .list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-    border-bottom: 2px solid #3498db;
+    margin-bottom: 20px;
     padding-bottom: 10px;
+    border-bottom: 2px solid #007bff;
 }
 
-.list-header h2 {
-    color: #2c3e50;
-    margin: 0;
-    font-size: 1.8rem;
-}
-
-.list-header a {
-    text-decoration: none;
-    background-color: #3498db;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background 0.3s;
-}
-
-.list-header a:hover {
-    background-color: #2980b9;
-}
-
-/* 데이터 테이블 스타일 */
+/* 테이블 레이아웃 핵심 설정 */
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* 너비를 고정하여 텍스트 넘침 제어 */
+    table-layout: fixed; /* 중요: 컬럼 너비를 강제로 고정함 */
 }
 
+.data-table th, .data-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    vertical-align: middle;
+    /* 텍스트가 길어질 경우 생략 처리 (...) */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 각 컬럼별 너비 지정 (합계 100%) */
+.data-table th:nth-child(1), .data-table td:nth-child(1) { width: 8%; }  /* 번호 */
+.data-table th:nth-child(2), .data-table td:nth-child(2) { width: 12%; } /* 아이디 */
+.data-table th:nth-child(3), .data-table td:nth-child(3) { width: 35%; text-align: left; } /* 비밀번호 (넓게) */
+.data-table th:nth-child(4), .data-table td:nth-child(4) { width: 15%; } /* 사용자명 */
+.data-table th:nth-child(5), .data-table td:nth-child(5) { width: 15%; } /* 직업 */
+.data-table th:nth-child(6), .data-table td:nth-child(6) { width: 15%; } /* 등록일시 */
+
+/* 헤더 스타일 */
 .data-table th {
     background-color: #f8f9fa;
     color: #333;
-    font-weight: 600;
-    padding: 15px 10px;
-    border-bottom: 2px solid #dee2e6;
-    text-align: center;
-}
-
-.data-table td {
-    padding: 15px 10px;
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-    /* 텍스트가 너무 길면 말줄임표(...) 처리 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap; 
-}
-
-/* 비밀번호처럼 아주 긴 텍스트 열에만 예외 적용 (말줄임표) */
-.data-table td:nth-child(3) {
-    max-width: 250px;
-    color: #7f8c8d;
-    font-size: 0.9rem;
-}
-
-/* 행에 마우스 올렸을 때 강조 */
-.data-table tr:hover {
-    background-color: #f1f7ff;
+    font-weight: bold;
 }
 
 /* 아이디 링크 스타일 */
-.data-table a {
-    color: #3498db;
+.data-table td a {
+    color: #007bff;
     text-decoration: none;
     font-weight: bold;
 }
 
-.data-table a:hover {
-    text-decoration: underline;
-}
-
-/* 빈 목록 메시지 */
-.data-table td[colspan] {
-    text-align: center;
-    padding: 50px;
-    color: #999;
+/* 버튼 스타일 */
+.list-header a {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
 }

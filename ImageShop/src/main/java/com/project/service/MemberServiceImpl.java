@@ -53,8 +53,9 @@ public class MemberServiceImpl implements MemberService {
 				MemberAuth memberAuth = authList.get(i);
 				String auth = memberAuth.getAuth();
 
-				if (auth == null || auth.trim().length() == 0) 	continue;
-				
+				if (auth == null || auth.trim().length() == 0)
+					continue;
+
 				// 변경된 회원권한 추가
 				memberAuth.setUserNo(member.getUserNo());
 				mapper.modifyAuth(memberAuth);
@@ -66,8 +67,27 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	@Transactional
 	public int remove(Member member) throws Exception {
-		// 회원 권한 삭제 
-		mapper.deleteAuth(member); 
+		// 회원 권한 삭제
+		mapper.deleteAuth(member);
 		return mapper.delete(member);
+	}
+
+	@Override
+	public int countAll() throws Exception {
+		return mapper.countAll();
+	}
+
+	@Override
+	@Transactional
+	public int setupAdmin(Member member) throws Exception {
+		int count = mapper.create(member);
+		if (count != 0) {
+			MemberAuth memberAuth = new MemberAuth();
+
+			memberAuth.setUserNo(member.getUserNo());
+			memberAuth.setAuth("ROLE_ADMIN");
+			mapper.createAuth(memberAuth);
+		}
+		return count;
 	}
 }

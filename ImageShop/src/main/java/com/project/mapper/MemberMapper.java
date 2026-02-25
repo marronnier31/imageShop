@@ -23,4 +23,6 @@ public interface MemberMapper {
 
 	public int delete(Member member) throws Exception;
 
+	public int countAll() throws Exception;
+
 }
