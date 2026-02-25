@@ -48,6 +48,15 @@
 		WHERE
 		mem.user_no = #{userNo}
 	</select>
+	<!-- 상세 조회 -->
+	<select id="readByUserId" resultMap="memberMap">
+		SELECT mem.user_no, mem.user_id,
+		user_pw, user_name, job, coin, reg_date, upd_date, auth
+		FROM member mem
+		LEFT OUTER JOIN member_auth auth ON mem.user_no = auth.user_no
+		WHERE
+		mem.user_id = #{userId}
+	</select>
 	<!-- 권한 수정 -->
 	<insert id="modifyAuth">
 		INSERT INTO member_auth(user_no, auth)

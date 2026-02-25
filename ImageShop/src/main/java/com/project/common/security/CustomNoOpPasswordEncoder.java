@@ -1,4 +1,4 @@
-package com.zeus.common.security;
+package com.project.common.security;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
