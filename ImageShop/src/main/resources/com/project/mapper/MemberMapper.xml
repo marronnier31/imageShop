@@ -45,6 +45,27 @@
 		user_pw, user_name, job, coin, reg_date, upd_date, auth
 		FROM member mem
 		LEFT OUTER JOIN member_auth auth ON mem.user_no = auth.user_no
-		WHERE mem.user_no = #{userNo}
+		WHERE
+		mem.user_no = #{userNo}
 	</select>
+	<!-- 권한 수정 -->
+	<insert id="modifyAuth">
+		INSERT INTO member_auth(user_no, auth)
+		VALUES(#{userNo},#{auth})
+	</insert>
+	<!-- 권한 삭제 -->
+	<delete id="deleteAuth">
+		DELETE FROM member_auth
+		WHERE user_no = #{userNo}
+	</delete>
+	<!-- 수정 처리 -->
+	<update id="update">
+		UPDATE member SET user_name =#{userName},job =#{job}
+		WHERE user_no = #{userNo}
+	</update>
+	<!-- 삭제 처리 -->
+	<delete id="delete">
+		DELETE FROM member
+		WHERE user_no = #{userNo}
+	</delete>
 </mapper>

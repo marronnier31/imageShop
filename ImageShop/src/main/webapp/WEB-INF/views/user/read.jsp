@@ -48,7 +48,7 @@
 				<tr>
 					<td><spring:message code="user.job" /></td>
 					<td><form:select path="job" items="${jobList}"
-							itemValue="value" itemLabel="label" disabled="ture" /></td>
+							itemValue="value" itemLabel="label" disabled="true" /></td>
 					<td><font color="red"><form:errors path="job" /></font></td>
 				</tr>
 				<tr>

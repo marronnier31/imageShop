@@ -100,10 +100,21 @@ public class MemberController {
 	@PostMapping("/modify")
 	public String modify(Member member, RedirectAttributes rttr) throws Exception {
 		int count = service.modify(member);
-		if(count != 0) 
+		if (count != 0)
 			rttr.addFlashAttribute("msg", "SUCCESS");
 		else
 			rttr.addFlashAttribute("msg", "Modify Failed");
+		return "redirect:/user/list";
+	}
+
+	// 삭제 처리
+	@PostMapping("/remove")
+	public String remove(Member member, RedirectAttributes rttr) throws Exception {
+		int count = service.remove(member);
+		if (count != 0)
+			rttr.addFlashAttribute("msg", "SUCCESS");
+		else
+			rttr.addFlashAttribute("msg", "Delete Failed");
 		return "redirect:/user/list";
 	}
 

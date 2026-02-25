@@ -1,0 +1,95 @@
+/* 컨텐츠 전체 감싸는 컨테이너 */
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* 헤더 부분 (제목 + 등록 버튼) */
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.list-header h2 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.list-header a {
+    text-decoration: none;
+    background-color: #3498db;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.list-header a:hover {
+    background-color: #2980b9;
+}
+
+/* 데이터 테이블 스타일 */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* 너비를 고정하여 텍스트 넘침 제어 */
+}
+
+.data-table th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    padding: 15px 10px;
+    border-bottom: 2px solid #dee2e6;
+    text-align: center;
+}
+
+.data-table td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    /* 텍스트가 너무 길면 말줄임표(...) 처리 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+}
+
+/* 비밀번호처럼 아주 긴 텍스트 열에만 예외 적용 (말줄임표) */
+.data-table td:nth-child(3) {
+    max-width: 250px;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+/* 행에 마우스 올렸을 때 강조 */
+.data-table tr:hover {
+    background-color: #f1f7ff;
+}
+
+/* 아이디 링크 스타일 */
+.data-table a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.data-table a:hover {
+    text-decoration: underline;
+}
+
+/* 빈 목록 메시지 */
+.data-table td[colspan] {
+    text-align: center;
+    padding: 50px;
+    color: #999;
+}
