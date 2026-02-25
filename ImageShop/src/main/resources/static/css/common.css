@@ -8,6 +8,7 @@ body {
     padding: 0;
 }
 
+
 /* 유틸리티 클래스 */
 .text-center { text-align: center; }
 
@@ -16,10 +17,20 @@ body {
     background-color: #ffffff;
     padding: 15px 50px;
     display: flex;
-    justify-content: center; /* 홈 링크 중앙 정렬 */
+    justify-content: flex-end;
     border-bottom: 1px solid #eee;
 }
+.header-links {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* 링크 사이의 간격을 테이블 td 대신 여기서 조절합니다 */
+}
 
+.user-info {
+    font-size: 1rem;
+    color: #333;
+    margin-right: 5px;
+}
 .main-header a {
     text-decoration: none;
     color: #1a73e8;
@@ -33,7 +44,7 @@ body {
     background-color: #ffffff;
     padding: 10px 50px;
     display: flex;
-    justify-content: flex-end; /* 메뉴 우측 정렬 */
+    justify-content: flex-end;
     gap: 20px; /* 링크 사이 간격 */
 }
 

@@ -45,10 +45,10 @@ public class SecurityConfig {
 		//Spring Security 6.0 버전부터는 DispatcherType에 대해서도 보안 검사를 수행하는 것이 기본값이 되었다.
 		httpSecurity.authorizeHttpRequests(auth -> auth
                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                .requestMatchers("/accessError").permitAll()
-                .requestMatchers("/board/**").authenticated() // 게시판: 인증(로그인)
-                .requestMatchers("/manager/**").hasRole("MANAGER") // 매니저 기능: 인가(MANAGER)
-                .requestMatchers("/admin/**").hasRole("ADMIN") // 매니저 기능: 인가(ADMIN)
+//                .requestMatchers("/accessError").permitAll()
+//                .requestMatchers("/board/**").authenticated() // 게시판: 인증(로그인)
+//                .requestMatchers("/manager/**").hasRole("MANAGER") // 매니저 기능: 인가(MANAGER)
+//                .requestMatchers("/admin/**").hasRole("ADMIN") // 매니저 기능: 인가(ADMIN)
                 .anyRequest().permitAll() // 그 외 모든 요청은 인증, 인가 필요 없음
         );
 		
@@ -68,13 +68,13 @@ public class SecurityConfig {
 		);
 		
 		// 5.로그아웃처리
-//	    httpSecurity.logout(logout -> logout
-//	        .logoutUrl("/logout")                // 로그아웃을 처리할 URL (기본값: /logout)
-//	        .logoutSuccessUrl("/login")          // 로그아웃 성공 시 이동할 페이지
-//	        .invalidateHttpSession(true)         // HTTP 세션 무효화 (기본값: true)
-//	        .deleteCookies("JSESSIONID", "remember-me") // 로그아웃 시 관련 쿠키 삭제
-//	        .permitAll()                         // 로그아웃 요청은 누구나 접근 가능해야 함
-//	    );
+	    httpSecurity.logout(logout -> logout
+	        .logoutUrl("/auth/logout")                // 로그아웃을 처리할 URL (기본값: /logout)
+	        .logoutSuccessUrl("/auth/login")          // 로그아웃 성공 시 이동할 페이지
+	        .invalidateHttpSession(true)         // HTTP 세션 무효화 (기본값: true)
+	        .deleteCookies("JSESSIONID", "remember-me") // 로그아웃 시 관련 쿠키 삭제
+	        .permitAll()                         // 로그아웃 요청은 누구나 접근 가능해야 함
+	    );
 	    
 	    // 6.자동로그인 기능설정
 	    // 데이터 소스를 지정하고 테이블을 이용해서 기존 로그인 정보를 기록 

@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/codegroup")
+//관리자 권한을 가진 사용자만 접근이 가능하다. 
+@PreAuthorize("hasRole('ROLE_ADMIN')") 
 public class CodeGroupController {
 	@Autowired
 	private CodeGroupServiceImpl service;

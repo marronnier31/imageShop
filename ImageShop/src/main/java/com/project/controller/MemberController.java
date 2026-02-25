@@ -3,6 +3,7 @@ package com.project.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,6 +72,7 @@ public class MemberController {
 
 	// 목록 페이지
 	@GetMapping("/list")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void list(Model model) throws Exception {
 		model.addAttribute("list", service.list());
 	}
@@ -109,6 +111,7 @@ public class MemberController {
 
 	// 삭제 처리
 	@PostMapping("/remove")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String remove(Member member, RedirectAttributes rttr) throws Exception {
 		int count = service.remove(member);
 		if (count != 0)
