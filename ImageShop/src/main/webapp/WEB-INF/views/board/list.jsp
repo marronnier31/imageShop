@@ -9,11 +9,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Image Shop | CodeGroup</title>
+<title>Image Shop | Board</title>
 <!-- <script type="text/javascript" src="/js/test.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="/css/common.css">
-<link rel="stylesheet" href="/css/user.css">
+<link rel="stylesheet" href="/css/board.css">
 
 </head>
 <body>
@@ -50,9 +50,10 @@
 					<c:forEach items="${list}" var="board">
 						<tr>
 							<td align="center">${board.boardNo}</td>
-							<td align="right">${board.writer}</td>
-							<td align="left"><a
-								href='/board/read?boardNo=${board.boardNo}'>${board.title}</a></td>
+							<td align="center">${board.writer}</td>
+							<td align="center"><a
+								href='/board/read${pagination.makeQuery(pagination.pageRequest.page)}&boardNo=${board.boardNo}'>
+									${board.title}</a></td>
 							<td align="center"><fmt:formatDate
 									pattern="yyyy-MM-dd HH:mm" value="${board.regDate}" /></td>
 						</tr>
@@ -60,6 +61,29 @@
 				</c:otherwise>
 			</c:choose>
 		</table>
+		<!-- 페이징 네비게이션 -->
+		<div class="pagination">
+			<c:if test="${pagination.prev}">
+				<a class="left"
+					href="/board/list${pagination.makeQuery(pagination.startPage - 1)}">&laquo;</a>
+			</c:if>
+			<c:forEach begin="${pagination.startPage }"
+				end="${pagination.endPage }" var="idx">
+				<c:choose>
+					<c:when test="${pagination.pageRequest.page eq idx}">
+						<a href="/board/list${pagination.makeQuery(idx)}"
+							class="current-page">[${idx}]</a>
+					</c:when>
+					<c:otherwise>
+						<a href="/board/list${pagination.makeQuery(idx)}">${idx}</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<c:if test="${pagination.next && pagination.endPage > 0}">
+				<a class="right" href="/board/list${pagination.makeQuery(pagination.endPage + 1)}">&raquo;</a>
+			</c:if>
+		</div>
+
 	</div>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />

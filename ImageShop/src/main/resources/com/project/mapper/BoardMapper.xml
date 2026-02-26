@@ -9,13 +9,15 @@
 	<!-- 게시글 목록 페이지 -->
 	<select id="list" resultType="Board"> 
 	<![CDATA[
-	SELECT board_no, title, content, writer, reg_date FROM board WHERE board_no > 0 ORDER BY board_no DESC, reg_date DESC
+		SELECT board_no,title, content, writer,reg_date FROM (select board_no,title,content,writer,reg_date,rownum as rnum from board
+		ORDER BY board_no DESC, reg_date DESC) 
+		where rnum between #{sizePerPage}*#{page}-9 and #{sizePerPage}*#{page} 
+		ORDER BY board_no DESC, reg_date DESC
 	]]>
 	</select>
 	<!-- 게시글 상세 조회 -->
 	<select id="read" resultType="Board">
-		SELECT
-		board_no,title,content,writer,reg_date FROM board 
+		SELECT board_no,title,content,writer,reg_date FROM board
 		WHERE board_no = #{boardNo}
 	</select>
 	<!-- 게시글 수정 처리 -->
@@ -28,4 +30,10 @@
 		DELETE FROM board
 		WHERE board_no = #{boardNo}
 	</delete>
+	<!-- 게시글 전체 건수를 조회한다. -->
+	<select id="count" resultType="int"> 
+	<![CDATA[ 
+		SELECT count(board_no) FROM board WHERE board_no > 0 
+	]]>
+	</select>
 </mapper>
