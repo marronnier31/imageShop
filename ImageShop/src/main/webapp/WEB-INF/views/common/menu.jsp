@@ -21,6 +21,8 @@
 					<td width="120"><a href="/codedetail/list"><spring:message code="menu.codedetail.list" /></a></td>
 					<!-- 회원 관리를 메뉴 -->
 					<td width="120"><a href="/user/list"><spring:message code="menu.user.admin" /></a></td>
+					<!-- 회원 게시판리스트 메뉴 -->
+					<td width="120"><a href="/board/list">회원게시판리스트</a></td>
 				</sec:authorize>
 			
 				<!-- 인증완료,(인가: 관리자)일때 들어가는 메뉴 -->

@@ -33,10 +33,10 @@
 		<table class="data-table">
 			<tr>
 				<th align="center" width="80"><spring:message code="board.no" /></th>
-				<th align="center" width="320"><spring:message
-						code="board.title" /></th>
 				<th align="center" width="100"><spring:message
 						code="board.writer" /></th>
+				<th align="center" width="320"><spring:message
+						code="board.title" /></th>
 				<th align="center" width="180"><spring:message
 						code="board.regdate" /></th>
 			</tr>
@@ -50,9 +50,9 @@
 					<c:forEach items="${list}" var="board">
 						<tr>
 							<td align="center">${board.boardNo}</td>
+							<td align="right">${board.writer}</td>
 							<td align="left"><a
 								href='/board/read?boardNo=${board.boardNo}'>${board.title}</a></td>
-							<td align="right">${board.writer}</td>
 							<td align="center"><fmt:formatDate
 									pattern="yyyy-MM-dd HH:mm" value="${board.regDate}" /></td>
 						</tr>

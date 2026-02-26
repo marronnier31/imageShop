@@ -24,74 +24,54 @@
 
 	<div class="container" align="center">
 		<h2>
-			<spring:message code="user.header.read" />
+			<spring:message code="board.header.read" />
 		</h2>
 
-		<form:form modelAttribute="member" action="/user/modify" method="get">
-			<form:hidden path="userNo" />
+		<form:form modelAttribute="board" action="/board/modify" method="get">
+			<form:hidden path="boardNo" />
 			<table class="user_table">
 				<tr>
-					<td><spring:message code="user.userId" /></td>
-					<td><form:input path="userId" readonly="true" /></td>
-					<td><font color="red"><form:errors path="userId" /></font></td>
+					<td><spring:message code="board.title" /></td>
+					<td><form:input path="title" readonly="true" /></td>
+					<td><font color="red"><form:errors path="title" /></font></td>
 				</tr>
 				<tr>
-					<td><spring:message code="user.userPw" /></td>
-					<td><form:input path="userPw" readonly="true" /></td>
-					<td><font color="red"><form:errors path="userPw" /></font></td>
+					<td><spring:message code="board.writer" /></td>
+					<td><form:input path="writer" readonly="true" /></td>
+					<td><font color="red"><form:errors path="writer" /></font></td>
 				</tr>
 				<tr>
-					<td><spring:message code="user.userName" /></td>
-					<td><form:input path="userName" readonly="true" /></td>
-					<td><font color="red"><form:errors path="userName" /></font></td>
-				</tr>
-				<tr>
-					<td><spring:message code="user.job" /></td>
-					<td><form:select path="job" items="${jobList}"
-							itemValue="value" itemLabel="label" disabled="true" /></td>
-					<td><font color="red"><form:errors path="job" /></font></td>
-				</tr>
-				<tr>
-					<td><spring:message code="user.auth" /> - 1</td>
-					<td><form:select path="authList[0].auth" disabled="true">
-							<form:option value="" label="=== 선택해 주세요 ===" />
-							<form:option value="ROLE_USER" label="사용자" />
-							<form:option value="ROLE_MEMBER" label="회원" />
-							<form:option value="ROLE_ADMIN" label="관리자" />
-						</form:select></td>
-				</tr>
-				<tr>
-					<td><spring:message code="user.auth" /> - 2</td>
-					<td><form:select path="authList[1].auth" disabled="true">
-							<form:option value="" label="=== 선택해 주세요 ===" />
-							<form:option value="ROLE_USER" label="사용자" />
-							<form:option value="ROLE_MEMBER" label="회원" />
-							<form:option value="ROLE_ADMIN" label="관리자" />
-						</form:select></td>
-				</tr>
-				<tr>
-					<td><spring:message code="user.auth" /> - 3</td>
-					<td><form:select path="authList[2].auth" disabled="true">
-							<form:option value="" label="=== 선택해 주세요 ===" />
-							<form:option value="ROLE_USER" label="사용자" />
-							<form:option value="ROLE_MEMBER" label="회원" />
-							<form:option value="ROLE_ADMIN" label="관리자" />
-						</form:select></td>
+					<td><spring:message code="board.content" /></td>
+					<td><form:textarea path="content" readonly="true" /></td>
+					<td><font color="red"><form:errors path="content" /></font></td>
 				</tr>
 			</table>
 
 			<div class="button-group">
-				<button type="button" id="btnEdit">
-					<spring:message code="action.edit" />
-				</button>
-				<button type="button" id="btnRemove">
-					<spring:message code="action.remove" />
-				</button>
+				<!-- 사용자 정보를 가져온다. -->
+				<sec:authentication property="principal" var="customuser" />
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<button type="button" id="btnList">
-						<spring:message code="action.list" />
+					<button type="button" id="btnEdit">
+						<spring:message code="action.edit" />
+					</button>
+					<button type="button" id="btnRemove">
+						<spring:message code="action.remove" />
 					</button>
 				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_MEMBER')">
+					<c:if test="${customuser.username eq board.writer}">
+						<button type="button" id="btnEdit">
+							<spring:message code="action.edit" />
+						</button>
+						<button type="button" id="btnRemove">
+							<spring:message code="action.remove" />
+						</button>
+					</c:if>
+				</sec:authorize>
+				<button type="button" id="btnList">
+					<spring:message code="action.list" />
+				</button>
+
 			</div>
 		</form:form>
 	</div>
@@ -101,18 +81,18 @@
 	<script>
 		$(document).ready(function() {
 			// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
-			let formObj = $("#member");
+			let formObj = $("#board");
 
 			$("#btnEdit").on("click", function() {
-				formObj.submit();
+				let boardNo =$("#boardNo");
+				self.location = "/board/modify?boardNo="+boardNo.val();
 			});
 			$("#btnRemove").on("click", function() {
-				formObj.attr("action","/user/remove");
-				formObj.attr("method","post");
-				formObj.submit();
+				let boardNo =$("#boardNo");
+				self.location = "/board/remove?boardNo="+boardNo.val();
 			});
 			$("#btnList").on("click", function() {
-				self.location = "/user/list";
+				self.location = "/board/list";
 			});
 		});
 	</script>

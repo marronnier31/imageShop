@@ -10,4 +10,6 @@ public interface BoardService {
 
 	public List<Board> list() throws Exception;
 
+	public Board read(Board board) throws Exception;
+
 }

@@ -25,6 +25,9 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.list();
 	}
 
-	
+	@Override
+	public Board read(Board board) throws Exception {
+		return mapper.read(board);
+	}
 	
 }
