@@ -8,6 +8,8 @@
 			<td width="80"><a href="/"><spring:message code="header.home" /></a></td>
 			<!-- 로그인을 하지 않은 경우의 메뉴 -->
 			<sec:authorize access="!isAuthenticated()">
+			<!-- 회원 게시판리스트 메뉴 -->
+					<td width="120"><a href="/board/list">회원게시판리스트</a></td>
 			</sec:authorize>
 			<!-- 인증된 사용자의 메뉴(인가: 관리자, 회원, 매니저) -->
 			<sec:authorize access="isAuthenticated()">
@@ -20,9 +22,13 @@
 					<!-- 회원 관리를 메뉴 -->
 					<td width="120"><a href="/user/list"><spring:message code="menu.user.admin" /></a></td>
 				</sec:authorize>
-				<!-- 회원 권한을 가진 사용자인 경우 true -->
-				<sec:authorize access="hasRole('ROLE_MEMBER')"></sec:authorize>	
+			
+				<!-- 인증완료,(인가: 관리자)일때 들어가는 메뉴 -->
+				<sec:authorize access="hasRole('ROLE_MEMBER')">
+					<!-- 회원 게시판리스트 메뉴 -->
+					<td width="120"><a href="/board/list">회원게시판리스트</a></td>
 				</sec:authorize>	
+				</sec:authorize>
 		</tr>
 	</table>
 </div>
