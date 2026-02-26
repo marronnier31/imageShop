@@ -29,5 +29,17 @@ public class BoardServiceImpl implements BoardService {
 	public Board read(Board board) throws Exception {
 		return mapper.read(board);
 	}
+
+	@Override
+	@Transactional
+	public int modify(Board board) throws Exception {
+		return mapper.update(board);
+	}
+
+	@Override
+	@Transactional
+	public int remove(Board board) throws Exception {
+		return mapper.delete(board);
+	}
 	
 }

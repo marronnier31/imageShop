@@ -27,7 +27,7 @@
 			<spring:message code="board.header.read" />
 		</h2>
 
-		<form:form modelAttribute="board" action="/board/modify" method="get">
+		<form:form modelAttribute="board" >
 			<form:hidden path="boardNo" />
 			<table class="user_table">
 				<tr>
