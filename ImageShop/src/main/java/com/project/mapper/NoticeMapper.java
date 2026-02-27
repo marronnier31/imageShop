@@ -12,4 +12,8 @@ public interface NoticeMapper {
 
 	public Notice read(Notice notice) throws Exception;
 
+	public int update(Notice notice) throws Exception;
+
+	public int delete(Notice notice) throws Exception;
+
 }

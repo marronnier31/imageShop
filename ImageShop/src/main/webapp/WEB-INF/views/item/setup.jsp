@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Image Shop | BoardList</title>
+<title>Image Shop | CodeGroup</title>
 <!-- <script type="text/javascript" src="/js/test.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="/css/common.css">
@@ -24,39 +24,35 @@
 
 	<div class="container" align="center">
 		<h2>
-			<spring:message code="notice.header.modify" />
+			<spring:message code="user.header.register" />
 		</h2>
 
-		<form:form modelAttribute="notice" action="/notice/modify" method="post">
-			<form:hidden path="noticeNo" />
-			
+		<form:form modelAttribute="member" action="/user/setup" method="post">
 			<table class="user_table">
 				<tr>
-					<td><spring:message code="notice.title" /></td>
-					<td><form:input path="title" /></td>
-					<td><font color="red"><form:errors path="title" /></font></td>
+					<td><spring:message code="user.userId" /></td>
+					<td><form:input path="userId" /></td>
+					<td><font color="red"><form:errors path="userId" /></font></td>
 				</tr>
-				
 				<tr>
-					<td><spring:message code="notice.content" /></td>
-					<td><form:textarea path="content" /></td>
-					<td><font color="red"><form:errors path="content" /></font></td>
+					<td><spring:message code="user.userPw" /></td>
+					<td><form:input path="userPw" /></td>
+					<td><font color="red"><form:errors path="userPw" /></font></td>
+				</tr>
+				<tr>
+					<td><spring:message code="user.userName" /></td>
+					<td><form:input path="userName" /></td>
+					<td><font color="red"><form:errors path="userName" /></font></td>
 				</tr>
 			</table>
 
 			<div class="button-group">
-				<!-- 사용자 정보를 가져온다. -->
-				<sec:authentication property="principal" var="customuser" />
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<button type="button" id="btnModify">
-						<spring:message code="action.modify" />
-					</button>
-				</sec:authorize>
-		
+				<button type="button" id="btnRegister">
+					<spring:message code="action.register" />
+				</button>
 				<button type="button" id="btnList">
 					<spring:message code="action.list" />
 				</button>
-
 			</div>
 		</form:form>
 	</div>
@@ -66,13 +62,15 @@
 	<script>
 		$(document).ready(function() {
 			// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
-			let formObj = $("#notice");
+			let formObj = $("#member");
 
-			$("#btnModify").on("click", function() {
+			$("#btnRegister").on("click", function() {
+				// 등록은 일반적으로 POST 방식을 사용합니다. 
+				// JSP 상단 form 태그에서 method="post"로 수정하는 것을 권장합니다.
 				formObj.submit();
 			});
 			$("#btnList").on("click", function() {
-				self.location =  "list"; 
+				self.location = "/user/list";
 			});
 		});
 	</script>

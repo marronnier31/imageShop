@@ -52,4 +52,36 @@ public class NoticeController {
 	public void read(Notice notice, Model model) throws Exception {
 		model.addAttribute(service.read(notice));
 	}
+
+	// 공지사항 수정 페이지
+	@GetMapping("/modify")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public void modifyForm(Notice notice, Model model) throws Exception {
+		model.addAttribute(service.read(notice));
+	}
+
+	// 공지사항 수정 처리
+	@PostMapping("/modify")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String modify(Notice notice, RedirectAttributes rttr) throws Exception {
+		int count = service.modify(notice);
+		if (count != 0)
+			rttr.addFlashAttribute("msg", "SUCCESS");
+		else
+			rttr.addFlashAttribute("msg", "Modify Failed");
+		return "redirect:/notice/list";
+	}
+
+	// 공지사항 삭제 처리
+	@GetMapping("/remove")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String remove(Notice notice, RedirectAttributes rttr) throws Exception {
+		log.info("remove"+notice);
+		int count = service.remove(notice);
+		if (count != 0)
+			rttr.addFlashAttribute("msg", "SUCCESS");
+		else
+			rttr.addFlashAttribute("msg", "Delete Failed");
+		return "redirect:/notice/list";
+	}
 }
