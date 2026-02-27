@@ -24,42 +24,41 @@
 
 	<div class="container" align="center">
 		<h2>
-			<spring:message code="notice.header.register" />
+			<spring:message code="item.header.remove" />
 		</h2>
-	<!-- 파일 업로드할 때는 반드시 enctype을 사용해야한다. -->
-		<form:form modelAttribute="item" action="/item/register" method="post"  enctype="multipart/form-data">
+		<!-- 파일 업로드할 때는 반드시 enctype을 사용해야한다. -->
+		<form:form modelAttribute="item" action="/item/remove" method="post"
+			enctype="multipart/form-data">
+			<form:hidden path="itemId" />
+
 			<table class="user_table">
 				<tr>
 					<td><spring:message code="item.itemName" /></td>
-					<td><form:input path="itemName" /></td>
-					<td><font color="red"><form:errors path="itemName" /></font></td>
+					<td><form:input path="itemName" disabled="true" /></td>
 				</tr>
 				<tr>
 					<td><spring:message code="item.itemPrice" /></td>
-					<td><form:input path="price" />&nbsp;원</td>
-					<td><font color="red"><form:errors path="price" /></font></td>
+					<td><form:input path="price" disabled="true" />&nbsp;원</td>
 				</tr>
 				<tr>
-					<td><spring:message code="item.itemFile" /></td>
-					<td><input type="file" name="picture" /></td>
-					<td></td>
+					<td><spring:message code="item.picture" /></td>
+					<td><img src="picture?itemId=${item.itemId}" width="210"></td>
 				</tr>
 				<tr>
-					<td><spring:message code="item.itemPreviewFile" /></td>
-					<td><input type="file" name="preview" /></td>
-					<td></td>
+					<td><spring:message code="item.preview" /></td>
+					<td><img src="display?itemId=${item.itemId}" width="210"></td>
 				</tr>
 				<tr>
 					<td><spring:message code="item.itemDescription" /></td>
-					<td><form:textarea path="description" /></td>
-					<td><form:errors path="description" /></td>
+					<td><form:textarea path="description" disabled="true" /></td>
 				</tr>
+
 			</table>
 
 			<div class="button-group">
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<button type="button" id="btnRegister">
-						<spring:message code="action.register" />
+					<button type="button" id="btnRemove">
+						<spring:message code="action.remove" />
 					</button>
 				</sec:authorize>
 				<button type="button" id="btnList">
@@ -76,7 +75,7 @@
 			// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
 			let formObj = $("#item");
 
-			$("#btnRegister").on("click", function() {
+			$("#btnRemove").on("click", function() {
 				// 등록은 일반적으로 POST 방식을 사용합니다. 
 				// JSP 상단 form 태그에서 method="post"로 수정하는 것을 권장합니다.
 				formObj.submit();

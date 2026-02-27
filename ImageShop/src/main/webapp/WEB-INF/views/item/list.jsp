@@ -23,39 +23,63 @@
 	<div class="container">
 		<div class="list-header">
 			<h2>
-				<spring:message code="notice.header.list" />
+				<spring:message code="item.header.list" />
 			</h2>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
-				<a href="/notice/register"><spring:message code="action.new" /></a>
+				<a href="/item/register"><spring:message code="action.new" /></a>
 			</sec:authorize>
 		</div>
 
 		<table class="data-table">
 			<tr>
-				<th align="center" width="80"><spring:message code="notice.no" /></th>
-				<th align="center" width="320"><spring:message code="notice.title" /></th>
-				<th align="center" width="180"><spring:message code="notice.regdate" /></th>
+				<th align="center" width="80"><spring:message code="item.itemId" /></th>
+				<th align="center" width="320"><spring:message code="item.itemName" /></th>
+				<th align="center" width="100"><spring:message code="item.itemPrice" /></th>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<th align="center" width="80"><spring:message code="item.edit" /></th>
+					<th align="center" width="80"><spring:message code="item.remove" /></th>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_MEMBER')">
+					<th align="center" width="80"><spring:message code="item.read" /></th>
+				</sec:authorize>
 			</tr>
 			<c:choose>
-				<c:when test="${empty list}">
+				<c:when test="${empty itemList}">
 					<tr>
-						<td colspan="3"><spring:message code="common.listEmpty" /></td>
+						<sec:authorize
+							access="!hasRole('ROLE_ADMIN') AND !hasRole('ROLE_MEMBER')">
+							<td colspan="3"><spring:message code="common.listEmpty" />
+							</td>
+						</sec:authorize>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+							<td colspan="5"><spring:message code="common.listEmpty" />
+							</td>
+						</sec:authorize>
+
+						<sec:authorize access="hasRole('ROLE_MEMBER')">
+							<td colspan="4"><spring:message code="common.listEmpty" />
+							</td>
+						</sec:authorize>
 					</tr>
 				</c:when>
 				<c:otherwise>
-					<c:forEach items="${list}" var="notice">
+					<c:forEach items="${itemList}" var="item">
 						<tr>
-							<td align="center">${notice.noticeNo}</td>
-							<td align="left"><a	href="/notice/read?noticeNo=${notice.noticeNo}">
-							<c:out value="${notice.title}" /></a></td>
-							<td align="center"><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${notice.regDate}" /></td>
+							<td align="center">${item.itemId}</td>
+							<td align="left">${item.itemName}</td>
+							<td align="right">${item.price}원</td>
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<td align="center"><a href="/item/modify?itemId=${item.itemId}"><spring:message code="item.edit" /></a></td>
+								<td align="center"><a href="/item/remove?itemId=${item.itemId}"><spring:message code="item.remove" /></a></td>
+							</sec:authorize>
+							<sec:authorize access="hasRole('ROLE_MEMBER')">
+								<td align="center"><a href="read?itemId=${item.itemId}"><spring:message code="item.read" /></a></td>
+							</sec:authorize>
 						</tr>
 					</c:forEach>
 				</c:otherwise>
 			</c:choose>
 		</table>
-		
-
 	</div>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
