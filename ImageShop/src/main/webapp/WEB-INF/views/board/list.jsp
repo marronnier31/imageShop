@@ -52,7 +52,7 @@
 							<td align="center">${board.boardNo}</td>
 							<td align="center">${board.writer}</td>
 							<td align="center"><a
-								href='/board/read${pagination.makeQuery(pagination.pageRequest.page)}&boardNo=${board.boardNo}'>
+								href='/board/read${pgrq.toUriString(pgrq.page)}&boardNo=${board.boardNo}'>
 									${board.title}</a></td>
 							<td align="center"><fmt:formatDate
 									pattern="yyyy-MM-dd HH:mm" value="${board.regDate}" /></td>
@@ -61,6 +61,20 @@
 				</c:otherwise>
 			</c:choose>
 		</table>
+		<!-- 검색 폼을 만든다. -->
+		<div class="search-container">
+			<form:form modelAttribute="pgrq" method="get"
+				action="/board/list${pgrq.toUriStringByPage(page)}">
+				<form:select path="searchType" items="${searchTypeCodeValueList}"
+					itemValue="value" itemLabel="label" />
+
+				<form:input path="keyword" placeholder="검색어를 입력하세요" />
+
+				<button type="submit" class="btn-search">
+					<spring:message code="action.search" />
+				</button>
+			</form:form>
+		</div>
 		<!-- 페이징 네비게이션 -->
 		<div class="pagination">
 			<c:if test="${pagination.prev}">
@@ -80,7 +94,8 @@
 				</c:choose>
 			</c:forEach>
 			<c:if test="${pagination.next && pagination.endPage > 0}">
-				<a class="right" href="/board/list${pagination.makeQuery(pagination.endPage + 1)}">&raquo;</a>
+				<a class="right"
+					href="/board/list${pagination.makeQuery(pagination.endPage + 1)}">&raquo;</a>
 			</c:if>
 		</div>
 

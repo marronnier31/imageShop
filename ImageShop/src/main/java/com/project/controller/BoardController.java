@@ -1,5 +1,8 @@
 package com.project.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.common.domain.CodeLabelValue;
 import com.project.common.domain.PageRequest;
 import com.project.common.domain.Pagination;
 import com.project.common.security.domain.CustomUser;
@@ -67,9 +71,20 @@ public class BoardController {
 		// 현재페이지 4, 한페이지당 보여주는 갯수 10개로 세팅
 		pagination.setPageRequest(pageRequest);
 		// 리스트 전체갯수 셋팅하고 다시 계산한다.
-		pagination.setTotalCount(service.count());
+		// 페이지 네비게이션 정보에 검색 처리된 게시글 건수를 저장한다(변경). 
+		pagination.setTotalCount(service.count(pageRequest));
 		// 화면 페이지를 보여주는 정보를 제공한다.
 		model.addAttribute(pagination);
+		// 검색 유형의 코드명과 코드값을 정의한다. 
+		List<CodeLabelValue> searchTypeCodeValueList = new ArrayList<CodeLabelValue>(); 
+		searchTypeCodeValueList.add(new CodeLabelValue("n", "---")); 
+		searchTypeCodeValueList.add(new CodeLabelValue("t", "Title")); 
+		searchTypeCodeValueList.add(new CodeLabelValue("c", "Content")); 
+		searchTypeCodeValueList.add(new CodeLabelValue("w", "Writer")); 
+		searchTypeCodeValueList.add(new CodeLabelValue("tc", "Title OR Content")); 
+		searchTypeCodeValueList.add(new CodeLabelValue("cw", "Content OR Writer")); 
+		searchTypeCodeValueList.add(new CodeLabelValue("tcw", "Title OR Content OR Writer")); 
+		model.addAttribute("searchTypeCodeValueList", searchTypeCodeValueList); 
 	}
 
 	// 게시글 상세 페이지
@@ -89,8 +104,7 @@ public class BoardController {
 	// 게시글 수정 처리
 	@PostMapping("/modify")
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
-	public String modify(Board board, RedirectAttributes rttr, @ModelAttribute("pgrq") PageRequest pageRequest)
-			throws Exception {
+	public String modify(Board board, RedirectAttributes rttr, PageRequest pageRequest) throws Exception {
 		int count = service.modify(board);
 		// RedirectAttributes 객체에 일회성 데이터를 지정하여 전달한다.
 		rttr.addAttribute("page", pageRequest.getPage());
@@ -105,8 +119,7 @@ public class BoardController {
 	// 게시글 삭제 처리
 	@GetMapping("/remove")
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
-	public String remove(Board board, RedirectAttributes rttr, PageRequest pageRequest)
-			throws Exception {
+	public String remove(Board board, RedirectAttributes rttr, PageRequest pageRequest) throws Exception {
 		int count = service.remove(board);
 		// RedirectAttributes 객체에 일회성 데이터를 지정하여 전달한다.
 		rttr.addAttribute("page", pageRequest.getPage());

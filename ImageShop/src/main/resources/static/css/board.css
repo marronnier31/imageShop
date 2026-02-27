@@ -85,41 +85,91 @@
     font-style: italic;
 }
 
-/* 페이징 네비게이션 스타일 */
+/* 검색 컨테이너: 중앙 정렬 및 여백 */
+.search-container {
+    text-align: center;
+    margin: 30px 0;
+}
+
+/* 폼 요소들을 한 줄로 */
+.search-container form {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 30px; /* 둥근 캡슐 모양 */
+    padding: 5px 15px;
+    background: #fff;
+    transition: box-shadow 0.3s;
+}
+
+/* 포커스 시 부드러운 그림자 */
+.search-container form:focus-within {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-color: #aaa;
+}
+
+/* 셀렉트 박스 스타일 */
+.search-container select {
+    border: none;
+    outline: none;
+    padding: 8px;
+    background: transparent;
+    font-size: 14px;
+    color: #555;
+    border-right: 1px solid #eee;
+}
+
+/* 입력창 스타일 */
+.search-container input[type="text"] {
+    border: none;
+    outline: none;
+    padding: 8px 15px;
+    width: 200px;
+    font-size: 14px;
+}
+
+/* 검색 버튼 스타일 (텍스트 형태) */
+.btn-search {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 8px;
+    transition: color 0.2s;
+}
+
+.btn-search:hover {
+    color: #0056b3;
+}
+
+/* 페이징 영역 여백 조정 */
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-top: 20px;
+    margin-top: 30px; /* 검색 폼과의 간격 */
+    padding-bottom: 20px;
 }
 
+/* 페이징 숫자 버튼 스타일 */
 .pagination a {
     text-decoration: none;
-    color: #666;
+    color: #444;
     padding: 6px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #eee;
     border-radius: 4px;
     font-size: 14px;
-    transition: all 0.2s;
 }
 
-.pagination a:hover {
-    background-color: #f8f9fa;
-    border-color: #bbb;
-}
-
-/* 현재 선택된 페이지 강조 */
-.pagination .current-page {
-    background-color: #333;
-    color: #fff;
-    border-color: #333;
+.pagination a.current-page {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
     font-weight: bold;
 }
 
-/* 이전/다음 화살표 아이콘 크기 조정 */
-.pagination > .left,
-.pagination > .right {
-    font-weight: bold;
-    color: #007bff;
+.pagination a:hover:not(.current-page) {
+    background-color: #f1f1f1;
 }

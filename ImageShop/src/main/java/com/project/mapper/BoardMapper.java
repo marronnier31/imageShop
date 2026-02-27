@@ -17,7 +17,7 @@ public interface BoardMapper {
 
 	public int delete(Board board) throws Exception;
 
-	public int count() throws Exception;
+	public int count(PageRequest pageRequest) throws Exception;
 
 
 }

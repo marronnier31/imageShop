@@ -8,6 +8,9 @@ public class PageRequest {
 	private int page;
 	// 한페이지당 사이즈
 	private int sizePerPage;
+	// 검색 유형과 검색어를 멤버변수(필드)로 선언한다.
+	private String searchType;
+	private String keyword;
 
 	public PageRequest() {
 		this.page = 1;
@@ -46,11 +49,46 @@ public class PageRequest {
 		return this.sizePerPage;
 	}
 
-	// 멤버 변수를 활용하여 다양한 형태의 쿼리파라미터를 생성한다.
-	// 만약 this.page = 3, this.sizePerPage = 20 이면=> "?page=3&sizePerPage=20"
+	// 검색 유형과 검색어를 멤버변수의 Getter/Setter 메서드
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	// 멤버 변수를 활용하여 다양한 형태의 쿼리파라미터를 생성한다(변경 추가).
+	// 만약 this.page = 3, this.sizePerPage = 20 이면=> "?page=3&sizePerPage=20&searchType=name&keyword=zeus"
 	public String toUriString() {
 		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("page", this.page)
+				.queryParam("sizePerPage", this.sizePerPage).queryParam("searchType", this.searchType)
+				.queryParam("keyword", this.keyword).build();
+		return uriComponents.toUriString();
+	}
+
+	public String toUriString(int page) {
+		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("page", page)
+				.queryParam("sizePerPage", this.sizePerPage).queryParam("searchType", this.searchType)
+				.queryParam("keyword", this.keyword).build();
+		return uriComponents.toUriString();
+	}
+
+	// 멤버 변수를 활용하여 다양한 형태의 쿼리파라미터를 생성한다.
+	// 만약 this.page = 3, this.sizePerPage = 20 이면=> "?page=3&sizePerPage=20"
+	public String toUriStringByPage(int page) {
+		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("page", page)
 				.queryParam("sizePerPage", this.sizePerPage).build();
 		return uriComponents.toUriString();
 	}
+
+
 }
