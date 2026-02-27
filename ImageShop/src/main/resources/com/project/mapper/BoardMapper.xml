@@ -32,6 +32,12 @@
 			</if>
 		</if>
 	</sql>
+	<sql id="total_list">
+		<if test="searchType == null">
+			and rnum between #{sizePerPage}*#{page}-9 and
+			#{sizePerPage}*#{page}
+		</if>
+	</sql>
 	<!-- 게시글 등록 처리 -->
 	<insert id="create">
 		INSERT INTO board(board_no,title,content,writer)
@@ -39,23 +45,25 @@
 	</insert>
 	<!-- 페이징 요청 정보를 매개 변수로 받아 페이징 처리를 한 게시글 목록을 조회한다. -->
 	<!-- 검색 조건을 추가한다. -->
-	<select id="list" resultType="Board"> 
-		SELECT board_no, title, content, writer, reg_date
-	    FROM (
-		     SELECT board_no, title, content, writer, reg_date, ROWNUM as rnum
-		     FROM (
-			      SELECT board_no, title, content, writer, reg_date
-			      FROM board WHERE board_no > 0
-			      <include refid="search"></include>
-			      ORDER BY board_no DESC
-		     	)
-		     WHERE ROWNUM &lt;= #{page} * #{sizePerPage}
-	    	)
-	    WHERE rnum &gt;= (#{page} * #{sizePerPage}) - (#{sizePerPage} - 1)
+	<select id="list" resultType="Board">
+    <![CDATA[
+    SELECT board_no, title, content, writer, reg_date
+    FROM ( SELECT board_no, title, content, writer, reg_date, rownum rnum
+          FROM ( SELECT board_no, title, content, writer, reg_date FROM board  WHERE board_no > 0
+    ]]>
+		<include refid="search" />
+		ORDER BY board_no DESC
+		)
+		)
+    <![CDATA[
+     WHERE board_no > 0 
+    ]]>
+		<include refid="total_list" />
 	</select>
 	<!-- 게시글 상세 조회 -->
 	<select id="read" resultType="Board">
-		SELECT board_no, title, content, writer, reg_date FROM board
+		SELECT board_no, title, content,
+		writer, reg_date FROM board
 		WHERE board_no = #{boardNo}
 	</select>
 	<!-- 게시글 수정 처리 -->

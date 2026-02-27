@@ -1,36 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%> 
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <div class="main-menu" align="right">
 	<table>
 		<tr>
-			<td width="80"><a href="/"><spring:message code="header.home" /></a></td>
-			<!-- 로그인을 하지 않은 경우의 메뉴 -->
+			<td width="80"><a href="/"><spring:message
+						code="header.home" /></a></td>
+			<!-- 로그인을 하지 않은(인증하지 않은) 경우의 메뉴(비회원) -->
 			<sec:authorize access="!isAuthenticated()">
-			<!-- 회원 게시판리스트 메뉴 -->
-					<td width="120"><a href="/board/list">회원게시판리스트</a></td>
+				<!-- 회원 게시판리스트 메뉴 -->
+				<td width="120"><a href="/board/list">회원게시판리스트</a></td>
+				<!-- 공지사항 리스트 -->
+				<td width="120"><a href="/notice/list"><spring:message
+							code="menu.notice.member" /></a></td>
+
 			</sec:authorize>
 			<!-- 인증된 사용자의 메뉴(인가: 관리자, 회원, 매니저) -->
 			<sec:authorize access="isAuthenticated()">
 				<!-- 인증완료,(인가: 관리자)일때 들어가는 메뉴 -->
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<!-- 코드그룹관리메뉴 -->
-					<td width="120"><a href="/codegroup/list"><spring:message code="menu.codegroup.list" /></a></td>
+					<td width="120"><a href="/codegroup/list"><spring:message
+								code="menu.codegroup.list" /></a></td>
 					<!-- 코드 관리 메뉴 -->
-					<td width="120"><a href="/codedetail/list"><spring:message code="menu.codedetail.list" /></a></td>
+					<td width="120"><a href="/codedetail/list"><spring:message
+								code="menu.codedetail.list" /></a></td>
 					<!-- 회원 관리를 메뉴 -->
-					<td width="120"><a href="/user/list"><spring:message code="menu.user.admin" /></a></td>
+					<td width="120"><a href="/user/list"><spring:message
+								code="menu.user.admin" /></a></td>
 					<!-- 회원 게시판리스트 메뉴 -->
 					<td width="120"><a href="/board/list">회원게시판리스트</a></td>
+					<!-- 공지사항 리스트 -->
+					<td width="120"><a href="/notice/list"><spring:message
+								code="menu.notice.member" /></a></td>
 				</sec:authorize>
-			
+
 				<!-- 인증완료,(인가: 관리자)일때 들어가는 메뉴 -->
 				<sec:authorize access="hasRole('ROLE_MEMBER')">
 					<!-- 회원 게시판리스트 메뉴 -->
 					<td width="120"><a href="/board/list">회원게시판리스트</a></td>
-				</sec:authorize>	
+					<!-- 공지사항 리스트 -->
+					<td width="120"><a href="/notice/list"><spring:message
+								code="menu.notice.member" /></a></td>
 				</sec:authorize>
+			</sec:authorize>
 		</tr>
 	</table>
 </div>
