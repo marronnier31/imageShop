@@ -1,25 +1,21 @@
 package com.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.common.security.domain.CustomUser;
 import com.project.domain.Comment;
 import com.project.domain.Member;
-import com.project.domain.Notice;
 import com.project.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 @Slf4j
 @Controller
@@ -40,7 +36,7 @@ public class CommentController {
 
 		model.addAttribute(comment);
 	}
-	
+
 	@PostMapping("/register")
 	public String register(RedirectAttributes rttr, Comment comment) throws Exception {
 		int count = service.create(comment);
@@ -48,21 +44,19 @@ public class CommentController {
 			rttr.addFlashAttribute("msg", "SUCCESS");
 		else
 			rttr.addFlashAttribute("msg", "Register Failed");
-		return "redirect:/board/read";
+		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
 	}
-	
-	// 공지사항 목록 페이지
-		@GetMapping("/list")
-		public void list(Model model) throws Exception {
-			model.addAttribute("commentList", service.list());
-		}
 
-		// 공지사항 상세 페이지
-		@GetMapping("/read")
-		public void read( Comment comment, Model model) throws Exception {
-			model.addAttribute(service.read(comment));
-		}
 	
+	@PostMapping("/modify")
+	public String modify(RedirectAttributes rttr, Comment comment) throws Exception {
+		int count = service.update(comment);
+		if (count != 0)
+			rttr.addFlashAttribute("msg", "SUCCESS");
+		else
+			rttr.addFlashAttribute("msg", "Delete Failed");
+		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
+	}
 	@GetMapping("/remove")
 	public String remove(RedirectAttributes rttr, Comment comment) throws Exception {
 		int count = service.delete(comment);
@@ -70,8 +64,7 @@ public class CommentController {
 			rttr.addFlashAttribute("msg", "SUCCESS");
 		else
 			rttr.addFlashAttribute("msg", "Delete Failed");
-		return "redirect:/board/read";
+		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
 	}
-	
 
 }

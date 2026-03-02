@@ -27,8 +27,8 @@
 			<spring:message code="board.header.read" />
 		</h2>
 
-		<form:form modelAttribute="board">
-			<form:hidden path="boardNo" />
+		<form:form modelAttribute="board" id="boardForm">
+			<form:hidden path="boardNo" id="boardNo" />
 			<!-- 현재 페이지 번호와 페이징 크기를 숨겨진 필드 요소를 사용하여 전달한다. -->
 			<input type="hidden" id="page" name="page" value="${pgrq.page}">
 			<input type="hidden" id="sizePerPage" name="sizePerPage"
@@ -77,12 +77,21 @@
 				</button>
 
 			</div>
-			<sec:authorize access="hasRoles('ROLE_MEMBER','ROLE_ADMIN')">
-		<jsp:include page="/WEB-INF/views/comment/register.jsp" />
-		</sec:authorize>
-		<jsp:include page="/WEB-INF/views/comment/list.jsp" />
-		</form:form>
 
+		</form:form>
+		<hr>
+
+		<sec:authorize access="hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')">
+			<div id="commentRegister">
+				<%-- comment/register.jsp를 포함 --%>
+				<jsp:include page="/WEB-INF/views/comment/register.jsp" />
+			</div>
+		</sec:authorize>
+
+		<div id="commentList">
+			<%-- comment/list.jsp를 포함 --%>
+			<jsp:include page="/WEB-INF/views/comment/list.jsp" />
+		</div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
@@ -91,7 +100,7 @@
 		$(document).ready(
 				function() {
 					// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
-					let formObj = $("#board");
+					let formObj = $("#boardForm");
 
 					$("#btnEdit").on(
 							"click",

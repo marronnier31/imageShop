@@ -8,7 +8,7 @@ import com.project.domain.Notice;
 public interface CommentService {
 	public int create(Comment comment) throws Exception;
 
-	public List<Comment> list() throws Exception;
+	public List<Comment> list(int boardNo) throws Exception;
 
 	public Comment read(Comment comment) throws Exception;
 	

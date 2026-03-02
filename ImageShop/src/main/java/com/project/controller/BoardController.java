@@ -19,8 +19,10 @@ import com.project.common.domain.PageRequest;
 import com.project.common.domain.Pagination;
 import com.project.common.security.domain.CustomUser;
 import com.project.domain.Board;
+import com.project.domain.Comment;
 import com.project.domain.Member;
 import com.project.service.BoardService;
+import com.project.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	@Autowired
 	private BoardService service;
-
+	@Autowired
+	private CommentService commentService;
+	
 	// 게시글 등록 페이지
 	@GetMapping("/register")
 	@PreAuthorize("hasRole('ROLE_MEMBER')")
@@ -90,8 +94,16 @@ public class BoardController {
 	// 게시글 상세 페이지
 	@GetMapping("/read")
 	public void read(Board board, @ModelAttribute("pgrq") PageRequest pageRequest, Model model) throws Exception {
-		log.info("board read = " + model);
-		model.addAttribute(service.read(board));
+		// 1. 게시글 상세 정보 추가
+	    Board boardData = service.read(board);
+	    model.addAttribute("board",boardData);
+
+	    // 2. 댓글 목록 추가 (CommentService를 Autowired 해야 함)
+	    // boardData.getBoardNo()를 사용하여 해당 게시글의 댓글만 가져오도록 서비스 호출
+	    model.addAttribute("commentList", commentService.list(boardData.getBoardNo())); 
+	    
+	    // 3. 댓글 등록을 위한 빈 객체 추가 (form:form modelAttribute="comment"용)
+	    model.addAttribute("comment", new Comment());
 	}
 
 	// 게시글 수정 페이지

@@ -7,7 +7,7 @@ import com.project.domain.Notice;
 
 public interface CommentMapper {
 	public int create(Comment comment) throws Exception;
-	public List<Comment> list() throws Exception;
+	public List<Comment> list(int boardNo) throws Exception;
 	public Comment read(Comment comment) throws Exception;
 	public int update(Comment comment) throws Exception;
 	public int delete(Comment comment) throws Exception;
