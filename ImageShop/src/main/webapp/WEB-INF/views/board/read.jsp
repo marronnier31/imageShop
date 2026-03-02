@@ -77,34 +77,51 @@
 				</button>
 
 			</div>
+			<sec:authorize access="hasRoles('ROLE_MEMBER','ROLE_ADMIN')">
+		<jsp:include page="/WEB-INF/views/comment/register.jsp" />
+		</sec:authorize>
+		<jsp:include page="/WEB-INF/views/comment/list.jsp" />
 		</form:form>
+
 	</div>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 	<script>
-		$(document).ready(function() {
-			// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
-			let formObj = $("#board");
+		$(document).ready(
+				function() {
+					// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
+					let formObj = $("#board");
 
-			$("#btnEdit").on("click", function() {
-				let page = $("#page").val(); 
-				let sizePerPage = $("#sizePerPage").val(); 
-				let boardNo = $("#boardNo").val();
-				self.location = "/board/modify?page=" + page+ "&sizePerPage=" + sizePerPage+ "&boardNo=" + boardNo;
-			});
-			$("#btnRemove").on("click", function() {
-				let page = $("#page").val(); 
-				let sizePerPage = $("#sizePerPage").val(); 
-				let boardNo = $("#boardNo").val();
-				self.location = "/board/remove?page=" + page+ "&sizePerPage=" + sizePerPage+ "&boardNo=" + boardNo;
-			});
-			$("#btnList").on("click", function() {
-				let page = $("#page").val(); 
-				let sizePerPage = $("#sizePerPage").val(); 
-				self.location = "/board/list?page=" + page+ "&sizePerPage="+ sizePerPage;
-			});
-		});
+					$("#btnEdit").on(
+							"click",
+							function() {
+								let page = $("#page").val();
+								let sizePerPage = $("#sizePerPage").val();
+								let boardNo = $("#boardNo").val();
+								self.location = "/board/modify?page=" + page
+										+ "&sizePerPage=" + sizePerPage
+										+ "&boardNo=" + boardNo;
+							});
+					$("#btnRemove").on(
+							"click",
+							function() {
+								let page = $("#page").val();
+								let sizePerPage = $("#sizePerPage").val();
+								let boardNo = $("#boardNo").val();
+								self.location = "/board/remove?page=" + page
+										+ "&sizePerPage=" + sizePerPage
+										+ "&boardNo=" + boardNo;
+							});
+					$("#btnList").on(
+							"click",
+							function() {
+								let page = $("#page").val();
+								let sizePerPage = $("#sizePerPage").val();
+								self.location = "/board/list?page=" + page
+										+ "&sizePerPage=" + sizePerPage;
+							});
+				});
 	</script>
 </body>
 </html>
