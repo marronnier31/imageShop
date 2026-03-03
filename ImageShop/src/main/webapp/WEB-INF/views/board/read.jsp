@@ -10,12 +10,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Image Shop </title>
+<title>Image Shop | CodeGroup</title>
 <!-- <script type="text/javascript" src="/js/test.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="/css/common.css">
-<link rel="stylesheet" href="/css/board.css">
-<link rel="stylesheet" href="/css/comment.css">
+<link rel="stylesheet" href="/css/codegroup.css">
 
 </head>
 <body>

@@ -31,9 +31,12 @@
 
 <script>
 	$(document).ready(function() {
-		
+		// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
 		let formObj = $("#commentForm");
+
 		$("#btnRegister").on("click", function() {
+			// 등록은 일반적으로 POST 방식을 사용합니다. 
+			// JSP 상단 form 태그에서 method="post"로 수정하는 것을 권장합니다.
 			formObj.submit();
 		});
 	});

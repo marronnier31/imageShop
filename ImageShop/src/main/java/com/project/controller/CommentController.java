@@ -48,6 +48,16 @@ public class CommentController {
 		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
 	}
 
+	
+	@PostMapping("/modify")
+	public String modify(RedirectAttributes rttr, Comment comment) throws Exception {
+		int count = service.update(comment);
+		if (count != 0)
+			rttr.addFlashAttribute("msg", "SUCCESS");
+		else
+			rttr.addFlashAttribute("msg", "Delete Failed");
+		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
+	}
 	@GetMapping("/remove")
 	@PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
 	public String remove(RedirectAttributes rttr, Comment comment) throws Exception {
