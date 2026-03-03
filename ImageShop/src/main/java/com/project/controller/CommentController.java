@@ -25,7 +25,7 @@ public class CommentController {
 	private CommentService service;
 
 	@GetMapping("/register")
-	@PreAuthorize("hasRoles('ROLE_ADMIN','ROLE_MEMBER')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
 	public void registerForm(Model model, Comment comment, Authentication authentication) throws Exception {
 		// 로그인한 사용자 정보 획득
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
@@ -38,6 +38,7 @@ public class CommentController {
 	}
 
 	@PostMapping("/register")
+	@PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
 	public String register(RedirectAttributes rttr, Comment comment) throws Exception {
 		int count = service.create(comment);
 		if (count != 0)
@@ -50,14 +51,17 @@ public class CommentController {
 	
 	@PostMapping("/modify")
 	public String modify(RedirectAttributes rttr, Comment comment) throws Exception {
+		log.info("comment/modify" +comment);
 		int count = service.update(comment);
+		
 		if (count != 0)
 			rttr.addFlashAttribute("msg", "SUCCESS");
 		else
 			rttr.addFlashAttribute("msg", "Delete Failed");
 		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
 	}
-	@GetMapping("/remove")
+	@PostMapping("/remove")
+	@PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
 	public String remove(RedirectAttributes rttr, Comment comment) throws Exception {
 		int count = service.delete(comment);
 		if (count != 0)

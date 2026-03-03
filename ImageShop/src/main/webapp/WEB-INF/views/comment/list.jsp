@@ -13,8 +13,13 @@
 <!-- <script type="text/javascript" src="/js/test.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<div modelAttribute="comment" id="commentForm" >
-	<input type="hidden" name="boardNo" value="${board.boardNo}" />
+<div modelAttribute="comment" id="commentForm">
+	<input type="hidden" name="boardNo" value="${board.boardNo}" /> <input
+		type="hidden" name="commentNo" value="${comment.commentNo}" />
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal" var="customuser" />
+	</sec:authorize>
+
 	<table class="data-table" style="width: 80%">
 		<c:forEach items="${commentList}" var="comment">
 			<tr id="comment-item-${comment.commentNo}">
@@ -71,7 +76,9 @@
 			</tr>
 		</c:forEach>
 	</table>
+	</table>
 </div>
+
 
 <script>
 	let result = "${msg}";

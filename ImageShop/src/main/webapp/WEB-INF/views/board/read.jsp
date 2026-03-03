@@ -83,13 +83,11 @@
 
 		<sec:authorize access="hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')">
 			<div id="commentRegister">
-				<%-- comment/register.jsp를 포함 --%>
 				<jsp:include page="/WEB-INF/views/comment/register.jsp" />
 			</div>
 		</sec:authorize>
 
 		<div id="commentList">
-			<%-- comment/list.jsp를 포함 --%>
 			<jsp:include page="/WEB-INF/views/comment/list.jsp" />
 		</div>
 	</div>

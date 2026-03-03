@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.CoinMapper">
+	<insert id="create">
+		INSERT INTO
+		charge_coin_history(history_no,user_no,amount)
+		VALUES(charge_coin_history_seq.NEXTVAL,#{userNo},#{amount})
+	</insert>
+	<update id="charge"> 
+		UPDATE member SET coin = (coin + #{amount}), upd_date = SYSDATE WHERE user_no = #{userNo} 
+	</update>
+	<select id="list" resultType="ChargeCoin"> 
+		<![CDATA[ 
+			SELECT history_no, user_no, amount, reg_date FROM charge_coin_history 
+			WHERE history_no > 0 AND user_no = #{userNo} ORDER BY history_no DESC 
+		]]>
+	</select>
+</mapper>
