@@ -46,17 +46,8 @@ public class CommentController {
 			rttr.addFlashAttribute("msg", "Register Failed");
 		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
 	}
-
 	
-	@PostMapping("/modify")
-	public String modify(RedirectAttributes rttr, Comment comment) throws Exception {
-		int count = service.update(comment);
-		if (count != 0)
-			rttr.addFlashAttribute("msg", "SUCCESS");
-		else
-			rttr.addFlashAttribute("msg", "Delete Failed");
-		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
-	}
+
 	@GetMapping("/remove")
 	public String remove(RedirectAttributes rttr, Comment comment) throws Exception {
 		int count = service.delete(comment);

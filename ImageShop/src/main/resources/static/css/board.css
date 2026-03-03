@@ -173,3 +173,105 @@
 .pagination a:hover:not(.current-page) {
     background-color: #f1f1f1;
 }
+기존에 제공해주신 board.css는 주로 목록(list.jsp)에 초점이 맞춰져 있었습니다. read.jsp에서 사용하는 user_table과 button-group 등에 대한 스타일을 추가하여 전체적인 디자인 통일감을 높여보겠습니다.
+
+기존 board.css 파일 하단에 아래 내용을 추가해 주세요.
+
+board.css 추가 스타일 (read.jsp용)
+CSS
+/* --- 상세보기(read.jsp) 전용 스타일 --- */
+
+/* 테이블 전체 스타일링 */
+.user_table {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border-top: 2px solid #333;
+    border-collapse: collapse;
+}
+
+.user_table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+/* 왼쪽 라벨 칸 (항목 명칭) */
+.user_table td:first-child {
+    width: 150px;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #444;
+    text-align: center;
+}
+
+/* 입력창 및 텍스트 영역 스타일 (상세보기용 readonly 상태) */
+.user_table input[readonly], 
+.user_table textarea[readonly] {
+    width: 100%;
+    border: 1px solid #e1e1e1;
+    background-color: #fff; /* readonly라도 깔끔하게 흰색 유지 */
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+}
+
+.user_table textarea {
+    height: 200px;
+    resize: none; /* 상세보기에서는 크기 조절 금지 */
+}
+
+/* 버튼 그룹 레이아웃 */
+.button-group {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* 버튼 공통 스타일 */
+.button-group button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* 수정 버튼 (Edit) */
+#btnEdit {
+    background-color: #ffc107;
+    color: #212529;
+}
+#btnEdit:hover {
+    background-color: #e0a800;
+}
+
+/* 삭제 버튼 (Remove) */
+#btnRemove {
+    background-color: #dc3545;
+    color: white;
+}
+#btnRemove:hover {
+    background-color: #c82333;
+}
+
+/* 목록 버튼 (List) */
+#btnList {
+    background-color: #6c757d;
+    color: white;
+}
+#btnList:hover {
+    background-color: #5a6268;
+}
+
+/* 구분선 스타일 */
+hr {
+    margin: 40px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
