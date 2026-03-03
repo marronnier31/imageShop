@@ -13,37 +13,65 @@
 <!-- <script type="text/javascript" src="/js/test.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<form:form modelAttribute="comment" id="commentForm">
+<div modelAttribute="comment" id="commentForm" >
 	<input type="hidden" name="boardNo" value="${board.boardNo}" />
 	<table class="data-table" style="width: 80%">
 		<c:forEach items="${commentList}" var="comment">
 			<tr id="comment-item-${comment.commentNo}">
 				<td class="comment-writer">${comment.userId}</td>
 
-				<td class="comment-content">${comment.content}</td>
+				<td class="comment-content">
+					<%-- 현재 행의 번호가 URL 파라미터로 넘어온 targetNo와 같으면 수정창 표시 --%> <c:choose>
+						<c:when test="${param.targetNo eq comment.commentNo}">
+							<form action="/comment/modify" method="post">
+								<input type="hidden" name="commentNo"
+									value="${comment.commentNo}" /> <input type="hidden"
+									name="boardNo" value="${board.boardNo}" />
+								<textarea name="content" style="width: 100%">${comment.content}</textarea>
+								<div style="text-align: right;">
+									<button type="submit">저장</button>
+									<%-- 취소 시 targetNo 파라미터를 빼고 다시 호출 --%>
+									<a href="/board/read?boardNo=${board.boardNo}">취소</a>
+								</div>
+							</form>
+						</c:when>
+						<c:otherwise>
+                        ${comment.content}
+                    </c:otherwise>
+					</c:choose>
+				</td>
 
 				<td class="comment-date"><fmt:formatDate
 						value="${comment.regDate}" pattern="yyyy-MM-dd" /></td>
 
-				<td><sec:authorize access="hasRole('ROLE_ADMIN')">
-						<button type="button" class="btn-modify-view"
-							value="${comment.commentNo}">수정</button>
-						<button type="button" class="btn-delete"
-							value="${comment.commentNo}">삭제</button>
-					</sec:authorize> <sec:authentication property="principal" var="customuser" /> <sec:authorize
-						access="hasRole('ROLE_MEMBER')">
-						<c:if test="${customuser.username eq comment.userId}">
-							<button type="button" class="btn-modify-view"
-								value="${comment.commentNo}">수정</button>
-							<button type="button" class="btn-delete"
-								value="${comment.commentNo}">삭제</button>
-						</c:if>
-					</sec:authorize></td>
+				<td><c:if test="${param.targetNo ne comment.commentNo}">
+						<%-- 1. 관리자인 경우: 무조건 표시 --%>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+							<a
+								href="/board/read?boardNo=${board.boardNo}&targetNo=${comment.commentNo}#comment-item-${comment.commentNo}">수정</a>
+							<a
+								href="/comment/remove?commentNo=${comment.commentNo}&boardNo=${board.boardNo}">삭제</a>
+						</sec:authorize>
+
+						<%-- 2. 일반 회원인 경우: 본인 글인지 확인 --%>
+						<sec:authorize access="hasRole('ROLE_MEMBER')">
+							<sec:authentication property="principal.username"
+								var="currentUserId" />
+							<c:if test="${currentUserId eq comment.userId}">
+								<%-- 관리자가 아닐 때만 출력되도록 (중복 방지) --%>
+								<sec:authorize access="!hasRole('ROLE_ADMIN')">
+									<a
+										href="/board/read?boardNo=${board.boardNo}&targetNo=${comment.commentNo}#comment-item-${comment.commentNo}">수정</a>
+									<a
+										href="/comment/remove?commentNo=${comment.commentNo}&boardNo=${board.boardNo}">삭제</a>
+								</sec:authorize>
+							</c:if>
+						</sec:authorize>
+					</c:if></td>
 			</tr>
 		</c:forEach>
-
 	</table>
-</form:form>
+</div>
 
 <script>
 	let result = "${msg}";
@@ -55,64 +83,6 @@
 		alert("수정처리 실패");
 	} else if (result === "Register Fail") {
 		alert("등록처리 실패");
-	}
-	$(document).ready(function() {
-	    // 1. [수정] 버튼 클릭 시 수정 모드로 전환
-	    $(document).on("click", ".btn-modify-view", function() {
-	        let parentRow = $(this).closest("tr");
-	        let commentNo = $(this).val(); 
-            // .text() 대신 .html()을 사용하여 태그 구조를 가져오거나, 
-            // 원래 내용을 정확히 가져오기 위해 .trim() 사용
-	        let originContent = parentRow.find(".comment-content").text().trim(); 
-
-	        // 기존 내용을 textarea로 교체 (textarea 안에 originContent를 넣어줌)
-	        let editHtml = `
-	            <textarea class="edit-textarea" style="width:100%">${originContent}</textarea>
-	            <div class="edit-buttons">
-	                <button type="button" class="btn-save" value="${comment.commentNo}">저장</button>
-	                <button type="button" class="btn-cancel" data-content="${originContent}">취소</button>
-	            </div>
-	        `;
-
-	        parentRow.find(".comment-content").html(editHtml);
-	        $(this).hide(); // 수정 버튼 숨기기
-	    });
-
-	    // 2. [취소] 버튼 클릭 시 원래대로 복구
-	    $(document).on("click", ".btn-cancel", function() {
-	        let parentRow = $(this).closest("tr");
-	        let originContent = $(this).data("content");
-
-	        parentRow.find(".comment-content").text(originContent);
-	        parentRow.find(".btn-modify-view").show(); // 수정 버튼 다시 표시
-	    });
-
-	    // 3. [저장] 버튼 클릭 시
-	    $(document).on("click", ".btn-save", function() {
-	        let commentNo = $(this).val();
-            // 저장 버튼이 있는 행의 textarea 값을 가져옴
-	        let newContent = $(this).closest("div").prev(".edit-textarea").val(); 
-
-	        if(!newContent) {
-	            alert("내용을 입력하세요.");
-	            return;
-	        }
-            
-            // 수정 처리 함수 호출
-	        submitUpdate(commentNo, newContent);
-	    });
-	});
-
-	function submitUpdate(no, content) {
-        // 동적 폼 생성 및 제출
-	    let form = $('<form action="/comment/modify" method="post"></form>');
-	    form.append($('<input type="hidden" name="commentNo">').val(no));
-	    form.append($('<input type="hidden" name="content">').val(content));
-        // 댓글이 속한 게시글 번호 전달
-	    form.append($('<input type="hidden" name="boardNo">').val("${board.boardNo}")); 
-
-	    $('body').append(form);
-	    form.submit();
 	}
 </script>
 

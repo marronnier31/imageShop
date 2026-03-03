@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.common.domain.CodeLabelValue;
@@ -34,7 +35,7 @@ public class BoardController {
 	private BoardService service;
 	@Autowired
 	private CommentService commentService;
-	
+
 	// 게시글 등록 페이지
 	@GetMapping("/register")
 	@PreAuthorize("hasRole('ROLE_MEMBER')")
@@ -75,35 +76,40 @@ public class BoardController {
 		// 현재페이지 4, 한페이지당 보여주는 갯수 10개로 세팅
 		pagination.setPageRequest(pageRequest);
 		// 리스트 전체갯수 셋팅하고 다시 계산한다.
-		// 페이지 네비게이션 정보에 검색 처리된 게시글 건수를 저장한다(변경). 
+		// 페이지 네비게이션 정보에 검색 처리된 게시글 건수를 저장한다(변경).
 		pagination.setTotalCount(service.count(pageRequest));
 		// 화면 페이지를 보여주는 정보를 제공한다.
 		model.addAttribute(pagination);
-		// 검색 유형의 코드명과 코드값을 정의한다. 
-		List<CodeLabelValue> searchTypeCodeValueList = new ArrayList<CodeLabelValue>(); 
-		searchTypeCodeValueList.add(new CodeLabelValue("n", "---")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("t", "Title")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("c", "Content")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("w", "Writer")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("tc", "Title OR Content")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("cw", "Content OR Writer")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("tcw", "Title OR Content OR Writer")); 
-		model.addAttribute("searchTypeCodeValueList", searchTypeCodeValueList); 
+		// 검색 유형의 코드명과 코드값을 정의한다.
+		List<CodeLabelValue> searchTypeCodeValueList = new ArrayList<CodeLabelValue>();
+		searchTypeCodeValueList.add(new CodeLabelValue("n", "---"));
+		searchTypeCodeValueList.add(new CodeLabelValue("t", "Title"));
+		searchTypeCodeValueList.add(new CodeLabelValue("c", "Content"));
+		searchTypeCodeValueList.add(new CodeLabelValue("w", "Writer"));
+		searchTypeCodeValueList.add(new CodeLabelValue("tc", "Title OR Content"));
+		searchTypeCodeValueList.add(new CodeLabelValue("cw", "Content OR Writer"));
+		searchTypeCodeValueList.add(new CodeLabelValue("tcw", "Title OR Content OR Writer"));
+		model.addAttribute("searchTypeCodeValueList", searchTypeCodeValueList);
 	}
 
 	// 게시글 상세 페이지
 	@GetMapping("/read")
-	public void read(Board board, @ModelAttribute("pgrq") PageRequest pageRequest, Model model) throws Exception {
+	public void read(Board board, @RequestParam(value="targetNo", required=false) Integer targetNo, @ModelAttribute("pgrq") PageRequest pageRequest, Model model) throws Exception {
 		// 1. 게시글 상세 정보 추가
-	    Board boardData = service.read(board);
-	    model.addAttribute("board",boardData);
+		Board boardData = service.read(board);
+		model.addAttribute("board", boardData);
 
-	    // 2. 댓글 목록 추가 (CommentService를 Autowired 해야 함)
-	    // boardData.getBoardNo()를 사용하여 해당 게시글의 댓글만 가져오도록 서비스 호출
-	    model.addAttribute("commentList", commentService.list(boardData.getBoardNo())); 
-	    
-	    // 3. 댓글 등록을 위한 빈 객체 추가 (form:form modelAttribute="comment"용)
-	    model.addAttribute("comment", new Comment());
+		// 2. 댓글 목록 추가 (CommentService를 Autowired 해야 함)
+		// boardData.getBoardNo()를 사용하여 해당 게시글의 댓글만 가져오도록 서비스 호출
+		model.addAttribute("commentList", commentService.list(boardData.getBoardNo()));
+
+		// 3. 댓글 등록을 위한 빈 객체 추가 (form:form modelAttribute="comment"용)
+		model.addAttribute("comment", new Comment());
+
+		// 4. [중요] 수정 대상을 모델에 담아 전송
+		// JSP에서 ${targetNo}로 접근하거나 ${param.targetNo}를 직접 써도 되지만,
+		// 모델에 명시적으로 담아주는 것이 더 깔끔합니다.
+		model.addAttribute("targetNo", targetNo);
 	}
 
 	// 게시글 수정 페이지
