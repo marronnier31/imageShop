@@ -43,7 +43,7 @@
 								code="menu.item.admin" /></a></td>
 				</sec:authorize>
 
-				<!-- 인증완료,(인가: 관리자)일때 들어가는 메뉴 -->
+				<!-- 인증완료,(인가: 회원)일때 들어가는 메뉴 -->
 				<sec:authorize access="hasRole('ROLE_MEMBER')">
 					<!-- 회원 게시판리스트 메뉴 -->
 					<td width="120"><a href="/board/list">회원게시판리스트</a></td>
@@ -53,6 +53,11 @@
 					<!-- 상품관리 리스트 -->
 					<td width="120"><a href="/item/list"><spring:message
 								code="menu.item.member" /></a></td>
+					<!-- 코인 충전과 충전 내역을 메뉴에 추가한다. -->
+					<td width="120"><a href="/coin/charge"><spring:message
+								code="menu.coin.charge" /></a></td>
+					<td width="120"><a href="/coin/list"><spring:message
+								code="menu.coin.list" /></a></td>
 				</sec:authorize>
 			</sec:authorize>
 		</tr>

@@ -1,0 +1,102 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Image Shop | Item</title>
+<!-- <script type="text/javascript" src="/js/test.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/board.css">
+
+</head>
+<body>
+	<!-- jsp:include는 동적처리방식 -->
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+	<jsp:include page="/WEB-INF/views/common/menu.jsp" />
+
+	<div class="container" align="center">
+		<h2>
+			<spring:message code="item.header.modify" />
+		</h2>
+		<!-- 파일 업로드할 때는 반드시 enctype을 사용해야한다. -->
+		<form:form modelAttribute="item" action="/item/modify" method="post"
+			enctype="multipart/form-data">
+			<form:hidden path="itemId" />
+			<form:hidden path="pictureUrl" />
+			<form:hidden path="previewUrl" />
+			<table class="user_table">
+				<tr>
+					<td><spring:message code="item.itemName" /></td>
+					<td><form:input path="itemName" /></td>
+					<td><font color="red"><form:errors path="itemName" /></font></td>
+				</tr>
+				<tr>
+					<td><spring:message code="item.itemPrice" /></td>
+					<td><form:input path="price" />&nbsp;원</td>
+					<td><font color="red"><form:errors path="price" /></font></td>
+				</tr>
+				<tr>
+					<td><spring:message code="item.picture" /></td>
+					<td><img src="/item/picture?itemId=${item.itemId}" width="210"></td>
+				</tr>
+				<tr>
+					<td><spring:message code="item.preview" /></td>
+					<td><img src="/item/display?itemId=${item.itemId}" width="210"></td>
+				</tr>
+				<tr>
+					<td><spring:message code="item.itemFile" /></td>
+					<td><input type="file" name="picture" /></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><spring:message code="item.itemPreviewFile" /></td>
+					<td><input type="file" name="preview" /></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><spring:message code="item.itemDescription" /></td>
+					<td><form:textarea path="description" /></td>
+					<td><form:errors path="description" /></td>
+				</tr>
+			</table>
+
+			<div class="button-group">
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<button type="button" id="btnModify">
+						<spring:message code="action.modify" />
+					</button>
+				</sec:authorize>
+				<button type="button" id="btnList">
+					<spring:message code="action.list" />
+				</button>
+			</div>
+		</form:form>
+	</div>
+
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+
+	<script>
+		$(document).ready(function() {
+			// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
+			let formObj = $("#item");
+
+			$("#btnModify").on("click", function() {
+				// 등록은 일반적으로 POST 방식을 사용합니다. 
+				// JSP 상단 form 태그에서 method="post"로 수정하는 것을 권장합니다.
+				formObj.submit();
+			});
+			$("#btnList").on("click", function() {
+				self.location = "/item/list";
+			});
+		});
+	</script>
+</body>
+</html>
