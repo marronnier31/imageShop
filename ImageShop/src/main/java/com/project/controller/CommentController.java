@@ -46,7 +46,6 @@ public class CommentController {
 			rttr.addFlashAttribute("msg", "Register Failed");
 		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
 	}
-	
 
 	@GetMapping("/remove")
 	public String remove(RedirectAttributes rttr, Comment comment) throws Exception {
