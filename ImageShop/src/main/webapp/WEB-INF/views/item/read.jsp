@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Image Shop | CodeGroup</title>
+<title>Image Shop | Item</title>
 <!-- <script type="text/javascript" src="/js/test.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="/css/common.css">
@@ -24,36 +24,40 @@
 
 	<div class="container" align="center">
 		<h2>
-			<spring:message code="notice.header.read" />
+			<spring:message code="item.header.read" />
 		</h2>
 
-		<form:form modelAttribute="notice">
-			<form:hidden path="noticeNo" />
+		<form:form modelAttribute="item">
+			
+			
+			<form:hidden path="itemId" />
 			
 			<table class="user_table">
 				<tr>
-					<td><spring:message code="notice.title" /></td>
-					<td><form:input path="title" readonly="true" /></td>
-					<td><font color="red"><form:errors path="title" /></font></td>
+					<td><spring:message code="item.itemName" /></td>
+					<td><form:input path="itemName" readonly="true" /></td>
+					<td><font color="red"><form:errors path="itemName" /></font></td>
 				</tr>
 				<tr>
-					<td><spring:message code="notice.content" /></td>
-					<td><form:textarea path="content" readonly="true" /></td>
-					<td><font color="red"><form:errors path="content" /></font></td>
+					<td><spring:message code="item.itemPrice" /></td>
+					<td><form:input path="price" readonly="true" />&nbsp;원</td>
+					<td><font color="red"><form:errors path="price" /></font></td>
+				</tr>
+				<tr>
+					<td><spring:message code="item.picture" /></td>
+					<td><img src="/item/picture?itemId=${item.itemId}" width="210"></td>
+				</tr>
+				<tr>
+					<td><spring:message code="item.preview" /></td>
+					<td><img src="/item/display?itemId=${item.itemId}" width="210"></td>
+				</tr>
+				<tr>
+					<td><spring:message code="item.itemDescription" /></td>
+					<td><form:textarea path="description"  readonly="true" /></td>
+					<td><form:errors path="description" /></td>
 				</tr>
 			</table>
-
 			<div class="button-group">
-				<!-- 사용자 정보를 가져온다. -->
-				<sec:authentication property="principal" var="customuser" />
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<button type="button" id="btnEdit">
-						<spring:message code="action.edit" />
-					</button>
-					<button type="button" id="btnRemove">
-						<spring:message code="action.remove" />
-					</button>
-				</sec:authorize>
 				
 				<button type="button" id="btnList">
 					<spring:message code="action.list" />
@@ -68,18 +72,10 @@
 	<script>
 		$(document).ready(function() {
 			// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
-			let formObj = $("#notice");
+			let formObj = $("#item");
 
-			$("#btnEdit").on("click", function() {
-				let noticeNo =$("#noticeNo").val();
-				self.location = "/notice/modify?noticeNo="+noticeNo;
-			});
-			$("#btnRemove").on("click", function() {
-				let noticeNo =$("#noticeNo").val();
-				self.location = "/notice/remove?noticeNo="+noticeNo;
-			});
 			$("#btnList").on("click", function() {
-				self.location = "/notice/list";
+				self.location = "/item/list";
 			});
 		});
 	</script>

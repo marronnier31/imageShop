@@ -30,7 +30,7 @@
 		<form:form modelAttribute="item" action="/item/remove" method="post"
 			enctype="multipart/form-data">
 			<form:hidden path="itemId" />
-
+			
 			<table class="user_table">
 				<tr>
 					<td><spring:message code="item.itemName" /></td>
