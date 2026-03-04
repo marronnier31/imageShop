@@ -96,6 +96,12 @@ public class ItemController {
 	// 상품 상세 페이지
 	@GetMapping("/read")
 	public String read(Item item, Model model) throws Exception {
+//		Item _item = itemService.read(item);
+//		if (_item != null) {
+//			model.addAttribute("item", _item);
+//		} else {
+//			throw new Exception("에러가 발생했습니다.");
+//		}
 		model.addAttribute(itemService.read(item));
 		return "item/read";
 	}
@@ -109,17 +115,21 @@ public class ItemController {
 		Member member = customUser.getMember();
 		// 해당되는 회원의 코인정보를 가져와서 저장
 		member.setCoin(memberService.getCoin(member));
-		//상품에 대한 정보를 가져온 후 장바구니 생성
-		int count = userItemService.register(member,  itemService.read(item));
-		//String message = messageSource.getMessage("item.purchaseComplete", null, Locale.KOREAN);
-		if(count != 0) rttr.addFlashAttribute("msg", "구매가 완료되었습니다.");
-		else rttr.addFlashAttribute("msg", "구매가 실패되었습니다.");
+		// 상품에 대한 정보를 가져온 후 장바구니 생성
+		int count = userItemService.register(member, itemService.read(item));
+		// String message = messageSource.getMessage("item.purchaseComplete", null,
+		// Locale.KOREAN);
+		if (count != 0)
+			rttr.addFlashAttribute("msg", "구매가 완료되었습니다.");
+		else
+			rttr.addFlashAttribute("msg", "구매가 실패되었습니다.");
 		return "redirect:/item/success";
 	}
 
 	// 상품 구매 성공 페이지를 표시한다.
 	@GetMapping("/success")
-	public void success() throws Exception {}
+	public void success() throws Exception {
+	}
 
 	// 상품 수정 페이지
 	@GetMapping("/modify")

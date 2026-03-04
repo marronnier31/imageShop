@@ -27,41 +27,14 @@
 			<spring:message code="coin.header.chargeCoin" />
 		</h2>
 
-		<form:form modelAttribute="chargeCoin" action="/coin/charge"
-			method="post">
-			<table>
-				<tr>
-					<td><spring:message code="coin.amount" /></td>
-					<td><form:input path="amount" /></td>
-					<td><font color="red"><form:errors path="amount" /></font></td>
-				</tr>
-			</table>
-			<div>
-				<sec:authorize access="hasRole('ROLE_MEMBER')">
-					<button type="submit" id="btnCharge">
-						<spring:message code="action.charge" />
-					</button>
-				</sec:authorize>
+		<p>
+			<spring:message code="coin.notEnoughCoin" />
+		</p>
 
-				<button type="button" id="btnList">
-					<spring:message code="action.list" />
-				</button>
-			</div>
-		</form:form>
+		<a href="/coin/charge"><spring:message code="coin.charge" /></a>
 	</div>
+
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-	<script>
-		$(document).ready(function() {
-			var formObj = $("#chargeCoin");
 
-			$("#btnCharge").on("click", function() {
-				formObj.submit();
-			});
-
-			$("#btnList").on("click", function() {
-				self.location = "/coin/list";
-			});
-		});
-	</script>
 </body>
 </html>

@@ -9,6 +9,7 @@ import com.project.domain.Item;
 import com.project.domain.Member;
 import com.project.domain.PayCoin;
 import com.project.domain.UserItem;
+import com.project.exception.NotEnoughCoinException;
 import com.project.mapper.CoinMapper;
 import com.project.mapper.UserItemMapper;
 
@@ -26,6 +27,12 @@ public class UserItemServiceImpl implements UserItemService {
 		UserItem userItem = new UserItem();
 		userItem.setUserNo(member.getUserNo());
 		userItem.setItemId(item.getItemId());
+
+		// 사용자의 코인이 부족한지 체크한다.
+		if (member.getCoin() < item.getPrice()) {
+			throw new NotEnoughCoinException("코인이 부족합니다.");
+		}
+
 		// 구입한 물건에 대한 코인 지급
 		PayCoin payCoin = new PayCoin();
 		payCoin.setUserNo(member.getUserNo());

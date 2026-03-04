@@ -29,9 +29,5 @@ public class HomeController {
 		model.addAttribute("serverTime", formatterDate);
 		return "home";
 	}
-	
-	@GetMapping("/common/accessError")
-	public void error(Model model) {
-		model.addAttribute("msg", "접근불가");
-	}
+
 }
