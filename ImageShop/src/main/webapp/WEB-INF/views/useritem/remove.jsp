@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Image Shop | Item</title>
+<title>Image Shop | CodeGroup</title>
 <!-- <script type="text/javascript" src="/js/test.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="/css/common.css">
@@ -24,46 +24,46 @@
 
 	<div class="container" align="center">
 		<h2>
-			<spring:message code="item.header.read" />
+			<spring:message code="item.header.remove" />
 		</h2>
-
-		<form:form modelAttribute="item" action="/item/buy" method="post">
+		<!-- 파일 업로드할 때는 반드시 enctype을 사용해야한다. -->
+		<form:form modelAttribute="item" action="/item/remove" method="post"
+			enctype="multipart/form-data">
 			<form:hidden path="itemId" />
 			
 			<table class="user_table">
 				<tr>
 					<td><spring:message code="item.itemName" /></td>
-					<td><form:input path="itemName" readonly="true" /></td>
-					<td><font color="red"><form:errors path="itemName" /></font></td>
+					<td><form:input path="itemName" disabled="true" /></td>
 				</tr>
 				<tr>
 					<td><spring:message code="item.itemPrice" /></td>
-					<td><form:input path="price" readonly="true" />&nbsp;원</td>
-					<td><font color="red"><form:errors path="price" /></font></td>
+					<td><form:input path="price" disabled="true" />&nbsp;원</td>
 				</tr>
 				<tr>
 					<td><spring:message code="item.picture" /></td>
-					<td><img src="/item/picture?itemId=${item.itemId}" width="210"></td>
+					<td><img src="picture?itemId=${item.itemId}" width="210"></td>
 				</tr>
 				<tr>
 					<td><spring:message code="item.preview" /></td>
-					<td><img src="/item/display?itemId=${item.itemId}" width="210"></td>
+					<td><img src="display?itemId=${item.itemId}" width="210"></td>
 				</tr>
 				<tr>
 					<td><spring:message code="item.itemDescription" /></td>
-					<td><form:textarea path="description"  readonly="true" /></td>
-					<td><form:errors path="description" /></td>
+					<td><form:textarea path="description" disabled="true" /></td>
 				</tr>
+
 			</table>
+
 			<div class="button-group">
-				
-				<button type="button" id="btnBuy">
-					<spring:message code="action.buy" />
-				</button>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<button type="button" id="btnRemove">
+						<spring:message code="action.remove" />
+					</button>
+				</sec:authorize>
 				<button type="button" id="btnList">
 					<spring:message code="action.list" />
 				</button>
-
 			</div>
 		</form:form>
 	</div>
@@ -75,11 +75,13 @@
 			// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
 			let formObj = $("#item");
 
-			$("#btnBuy").on("click", function() {
+			$("#btnRemove").on("click", function() {
+				// 등록은 일반적으로 POST 방식을 사용합니다. 
+				// JSP 상단 form 태그에서 method="post"로 수정하는 것을 권장합니다.
 				formObj.submit();
 			});
 			$("#btnList").on("click", function() {
-				self.location = "/useritem/list";
+				self.location = "/item/list";
 			});
 		});
 	</script>

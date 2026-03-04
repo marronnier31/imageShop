@@ -107,20 +107,19 @@ public class ItemController {
 		// 인증된 사용자정보를 가져온다.
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
 		Member member = customUser.getMember();
-		//member.setCoin(memberService.getCoin(member.getUserNo()));
-
-		//userItemService.register(member,  itemService.read(item));
-		String message = messageSource.getMessage("item.purchaseComplete", null, Locale.KOREAN);
-		rttr.addFlashAttribute("msg", message);
-
+		// 해당되는 회원의 코인정보를 가져와서 저장
+		member.setCoin(memberService.getCoin(member));
+		//상품에 대한 정보를 가져온 후 장바구니 생성
+		int count = userItemService.register(member,  itemService.read(item));
+		//String message = messageSource.getMessage("item.purchaseComplete", null, Locale.KOREAN);
+		if(count != 0) rttr.addFlashAttribute("msg", "구매가 완료되었습니다.");
+		else rttr.addFlashAttribute("msg", "구매가 실패되었습니다.");
 		return "redirect:/item/success";
 	}
 
 	// 상품 구매 성공 페이지를 표시한다.
 	@GetMapping("/success")
-	public String success() throws Exception {
-		return "item/success";
-	}
+	public void success() throws Exception {}
 
 	// 상품 수정 페이지
 	@GetMapping("/modify")

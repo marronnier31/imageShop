@@ -24,60 +24,50 @@
 
 	<div class="container" align="center">
 		<h2>
-			<spring:message code="item.header.read" />
+			<spring:message code="useritem.header.read" />
 		</h2>
 
-		<form:form modelAttribute="item" action="/item/buy" method="post">
-			<form:hidden path="itemId" />
-			
-			<table class="user_table">
+		<form:form modelAttribute="userItem">
+			<form:hidden path="userItemNo" />
+
+			<table>
 				<tr>
-					<td><spring:message code="item.itemName" /></td>
+					<td><spring:message code="useritem.itemName" /></td>
 					<td><form:input path="itemName" readonly="true" /></td>
 					<td><font color="red"><form:errors path="itemName" /></font></td>
 				</tr>
 				<tr>
-					<td><spring:message code="item.itemPrice" /></td>
-					<td><form:input path="price" readonly="true" />&nbsp;원</td>
+					<td><spring:message code="useritem.itemPrice" /></td>
+					<td><form:input path="price" readonly="true" /></td>
 					<td><font color="red"><form:errors path="price" /></font></td>
 				</tr>
 				<tr>
-					<td><spring:message code="item.picture" /></td>
-					<td><img src="/item/picture?itemId=${item.itemId}" width="210"></td>
+					<td><spring:message code="useritem.itemFile" /></td>
+					<td><img src="/item/display?itemId=${userItem.itemId}"
+						width="210"></td>
 				</tr>
 				<tr>
-					<td><spring:message code="item.preview" /></td>
-					<td><img src="/item/display?itemId=${item.itemId}" width="210"></td>
-				</tr>
-				<tr>
-					<td><spring:message code="item.itemDescription" /></td>
-					<td><form:textarea path="description"  readonly="true" /></td>
-					<td><form:errors path="description" /></td>
+					<td><spring:message code="useritem.itemDescription" /></td>
+					<td><form:textarea path="description" readonly="true" /></td>
+					<td><font color="red"><form:errors path="description" /></font></td>
 				</tr>
 			</table>
-			<div class="button-group">
-				
-				<button type="button" id="btnBuy">
-					<spring:message code="action.buy" />
-				</button>
+			<div>
 				<button type="button" id="btnList">
 					<spring:message code="action.list" />
 				</button>
-
 			</div>
-		</form:form>
-	</div>
 
+		</form:form>
+
+	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 	<script>
 		$(document).ready(function() {
 			// form의 id를 명시적으로 지정하여 찾는 것이 더 안전합니다.
-			let formObj = $("#item");
+			let formObj = $("#userItem");
 
-			$("#btnBuy").on("click", function() {
-				formObj.submit();
-			});
 			$("#btnList").on("click", function() {
 				self.location = "/useritem/list";
 			});
