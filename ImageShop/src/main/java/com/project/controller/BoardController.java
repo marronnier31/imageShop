@@ -107,8 +107,7 @@ public class BoardController {
 		model.addAttribute("comment", new Comment());
 
 		// 4. [중요] 수정 대상을 모델에 담아 전송
-		// JSP에서 ${targetNo}로 접근하거나 ${param.targetNo}를 직접 써도 되지만,
-		// 모델에 명시적으로 담아주는 것이 더 깔끔합니다.
+		// JSP에서 ${targetNo}로 접근하거나 ${param.targetNo}를 직접 써도 됨.
 		model.addAttribute("targetNo", targetNo);
 	}
 

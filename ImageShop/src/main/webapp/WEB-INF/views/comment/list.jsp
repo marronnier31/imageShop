@@ -14,8 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <div modelAttribute="comment" id="commentForm">
-	<input type="hidden" name="boardNo" value="${board.boardNo}" /> <input
-		type="hidden" name="commentNo" value="${comment.commentNo}" />
+	<input type="hidden" name="boardNo" value="${board.boardNo}" /> 
+	<input type="hidden" name="commentNo" value="${comment.commentNo}" />
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal" var="customuser" />
 	</sec:authorize>
@@ -75,7 +75,6 @@
 					</c:if></td>
 			</tr>
 		</c:forEach>
-	</table>
 	</table>
 </div>
 
