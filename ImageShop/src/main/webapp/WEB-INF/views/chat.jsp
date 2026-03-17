@@ -32,45 +32,46 @@
 		var sender = "${username}";
 
 		function connect() {
-			var socket = new SockJS('/ws-chat');
+			//엔드포인트연결(전화선 연결)
+			let socket = new SockJS('/ws-chat');
+			//전화기 역할
 			stompClient = Stomp.over(socket);
 
-			var myId = "${username}";
-
+			let myId = "${username}";
+			
+			//전화기로 서버에 연결 시도
 			stompClient.connect({}, function(frame) {
 				console.log('Connected: ' + frame);
-
-				// [수정 포인트 1] 메시지를 받았을 때 실행할 함수 이름을 showMsg로 유지
+				//특정 주소(채널)를 구독하여 주시
 				stompClient.subscribe('/topic/chat/' + myId,
 						function(response) {
-							var data = JSON.parse(response.body);
+					let data = JSON.parse(response.body);
 							showMsg(data.sender + ": " + data.content);
 						});
 			});
 		}
 
 		function send() {
-			var receiver = document.getElementById('receiverId').value;
-			var content = document.getElementById('msgContent').value;
+			let receiver = document.getElementById('receiverId').value;
+			let content = document.getElementById('msgContent').value;
 
-			var msg = {
+			let msg = {
 				'sender' : sender,
 				'receiver' : receiver,
 				'content' : content
 			};
+			//메시지를 상대에게 보냄
 			stompClient.send("/app/private-message", {}, JSON.stringify(msg));
 
-			// [수정 포인트 2] 내가 보낸 메시지도 showMsg 함수를 쓰도록 변경
 			showMsg("나 -> " + receiver + ": " + content);
 		}
 
-		// [수정 포인트 3] 함수 이름을 showMsg로 통일 (에러 해결 핵심!)
 		function showMsg(text) {
-			var li = document.createElement('li');
+			//ul태그의 msgList안에 li로 메시지를 정렬하기 위해
+			let li = document.createElement('li');
 			li.textContent = text;
 
-			// HTML에 <ul id="msgList"> 가 있는지 꼭 확인하세요!
-			var msgList = document.getElementById('msgList');
+			let msgList = document.getElementById('msgList');
 			if (msgList) {
 				msgList.appendChild(li);
 				// 메시지가 많아지면 자동으로 아래로 스크롤
